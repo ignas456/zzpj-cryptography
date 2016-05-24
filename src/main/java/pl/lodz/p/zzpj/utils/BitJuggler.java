@@ -91,19 +91,19 @@ public final class BitJuggler {
 	/**
 	 * Ustawia bit na podanej pozycji na podana wartość. Numer bitu liczony jest
 	 * od lewej do prawej zaczynając od 0.
-	 * @param source - źródłowa tablica bajtów.
+	 * @param destination - źródłowa tablica bajtów.
 	 * @param position pozycja bitu do ustawienia.
 	 * @param value - wartość na ktora chcemy ustawic bit (1 lub 0).
 	 */
-	public static void setBit(byte[] source, int position, int value) {
-		if (source == null)
+	public static void setBit(byte[] destination, int position, int value) {
+		if (destination == null)
 			throw new IllegalArgumentException("Source array is null");
 		
 		if (value != 0 && value != 1)
 			throw new IllegalArgumentException("value is not 1 or 0");
 		
 		int bytePosition = (position) / 8;
-		byte changedByte = source[bytePosition];
+		byte changedByte = destination[bytePosition];
 
 		if (1 == value) {
 			changedByte |= 1 << (8 - ((position % 8) + 1));
@@ -111,45 +111,45 @@ public final class BitJuggler {
 			changedByte &= ~(1 << (8 - ((position % 8) + 1)));
 		}
 
-		source[bytePosition] = changedByte;
+		destination[bytePosition] = changedByte;
 	}
 
 	/**
 	 * Ustawia określone bity przesłanej tablicy na bity przesłane w tablicy pomocniczej.
-	 * @param array - tablica bitów w której zmieniamy bity.
-	 * @param startPosition - pozycja (wlacznie) od której ma się zacząć ustawianie bitów. Numeracja od 0.
+	 * @param destination - tablica bitów w której zmieniamy bity.
+	 * @param destStartPosition - pozycja (wlacznie) od której ma się zacząć ustawianie bitów. Numeracja od 0.
 	 * @param source - bity które mają zostać wprowadzone.
-	 * @param startPosition2 - pozycja (wlacznie) od której mają być czytane bity. Numeracja od 0.
-	 * @param length ilość bitów z tablicy bits które mają zostać użyte.
+	 * @param srcStartPosition - pozycja (wlacznie) od której mają być czytane bity. Numeracja od 0.
+	 * @param length - ilość bitów z tablicy źródłowej, które mają zostać przepisane.
 	 */
-	public static void setBits(byte[] array, int startPosition, byte[] source, int startPosition2, int length) {
-		if (array == null) 
+	public static void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
+		if (destination == null || source == null) 
 			throw new IllegalArgumentException("array is null");
 		
-		for (int i = startPosition, j = startPosition2; i < startPosition + length; i++, j++) {
-			setBit(array, i, getBit(source, j));
+		if (destStartPosition < 0 || srcStartPosition < 0)
+			throw new IllegalArgumentException("Start position is negative number");
+		
+		for (int i = destStartPosition, j = srcStartPosition; i < destStartPosition + length; i++, j++) {
+			setBit(destination, i, getBit(source, j));
 		}
 	}
 
 	/**
-	 * Przesowa bity w lewa strone.
-	 * 
-	 * @param input
-	 *            Wejsciowa tablica bajtow.
-	 * @param len
-	 *            Ilosc bitow do przesuniecia.
-	 * @param pas
-	 *            Wiekowsc przesuniecia.
-	 * @return Tablica bajtow z przesunietymi bitami.
+	 * Rotuje wybrane bity z tablicy bajtów w lewą stronę, a natępnie umieszcza
+	 * je w nowej tablicy bajtów z uzupełnieniem zerami. 
+	 * @param source - źródłowa tablica bajtow.
+	 * @param bitsNumber - ilość bitów do rotowania liczona od lewej do prawej.
+	 * @param step - wielkość kroku.
+	 * @return Tablica bajtów z wynikiem rotacji.
 	 */
-	public static byte[] rotLeft(byte[] input, int len, int pas) {
-		int nrBytes = (len - 1) / 8 + 1;
-		byte[] out = new byte[nrBytes];
-		for (int i = 0; i < len; i++) {
-			int val = getBit(input, (i + pas) % len);
-			setBit(out, i, val);
+	public static byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
+		int bytesNumber = (bitsNumber - 1) / 8 + 1;
+		byte[] result = new byte[bytesNumber];
+		for (int i = 0; i < bitsNumber; i++) {
+			int selectedBit = getBit(source, (i + step) % bitsNumber);
+			setBit(result, i, selectedBit);
 		}
-		return out;
+		return result;
 	}
 
 	/**

@@ -74,5 +74,26 @@ public class BitJugglerTest {
 		
 		assertThat(operationResult).isEqualTo(expectedString);
 	}
+	
+	@Test
+	public void shouldSetBits() {
+		byte[] destinatiedArray = {0, 0};
+		byte[] sourceArray = {127, 127};
+		byte[] expectedArray = {15, 0};
+		
+		BitJuggler.setBits(destinatiedArray, 4, sourceArray, 1, 4);
+		
+		assertThat(destinatiedArray).isEqualTo(expectedArray);
+	}
+	
+	@Test
+	public void shouldRotateSelectedBitsToTheLeft() {
+		byte[] sourceArray = {127, 1};
+		byte[] expectedArray = {-4, 16};
+
+		byte[] operationResult = BitJuggler.rotateSelectedBitsLeft(sourceArray, 12, 2);
+		
+		assertThat(operationResult).isEqualTo(expectedArray);
+	}
 
 }
