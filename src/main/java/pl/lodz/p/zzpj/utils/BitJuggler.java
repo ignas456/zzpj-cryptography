@@ -6,8 +6,8 @@ public final class BitJuggler {
 	 * Wykonuje operacje XOR na dwóch podanch tablicach bajtów.
 	 * Jeżeli tablice są różnych rozmiarów, wynikiem jest tablica długości
 	 * takiej jak tablica wejściowa o większej długości.
-	 * @param src1 - pierwsza wejściowa tablica bajtów.
-	 * @param src2 - druga wejściowa tablica bajtów.
+	 * @param src1 pierwsza wejściowa tablica bajtów.
+	 * @param src2 druga wejściowa tablica bajtów.
 	 * @return tablica bajtów zawierająca wynik operacji XOR na tablicach wejściowych.
 	 */
 	public static byte[] xorArrays(byte[] src1, byte[] src2) {
@@ -31,8 +31,8 @@ public final class BitJuggler {
 	/**
 	 * Rozszerza rozmiar tablicy powiekszając ją do podanej długości.
 	 * Nowe komórki uzupełniane za zerami.
-	 * @param array - tablica którą chcemy poszerzyć
-	 * @param newLength - długość o jaką chcemy poszerzyć tablicę
+	 * @param array tablica którą chcemy poszerzyć
+	 * @param newLength długość o jaką chcemy poszerzyć tablicę
 	 * @return poszerzona tablica.
 	 */
 	public static byte[] extendArraySize(byte[] array, int newLength) {
@@ -48,8 +48,8 @@ public final class BitJuggler {
 	/**
 	 * Zwraca wartość bitu na podanej pozycji w całej tablicy bajtów.
 	 * Bity są liczone od lewej do prawej od indeksu 0.
-	 * @param source - źródło bajtów.
-	 * @param position - pozycja pożądanego bitu.
+	 * @param source źródło bajtów.
+	 * @param position pozycja pożądanego bitu.
 	 * @return wartosc bitu w postaci wartości całkowitej.
 	 */
 	public static int getBit(byte[] source, int position) {
@@ -67,22 +67,22 @@ public final class BitJuggler {
 
 	/**
 	 * Pobiera określone bity z podanej tablicy bajtów.
-	 * @param source - źródło bajtów.
-	 * @param startPosition - pozycja od której ma zostać rozpoczęte pobieranie (włacznie).
-	 * @param bitsNumber - ilosc bitów do pobrania.
+	 * @param source źródło bajtów.
+	 * @param startPosition pozycja od której ma zostać rozpoczęte pobieranie (włacznie).
+	 * @param bitsNumber ilosc bitów do pobrania.
 	 * @return Tablica bajów zawierajaca pobrane bity. Wynikiem jest podana ilość
-	 * bitów od lewej z uzupełnieniem do wielokrotności liczby 8 zerami.
+	 *         bitów od lewej z uzupełnieniem do wielokrotności liczby 8 zerami.
 	 */
 	public static byte[] getBits(byte[] source, int startPosition, int bitsNumber) {
 		if (source == null) 
 			throw new IllegalArgumentException("Source array is null");
 		
-		int bytesNumber = ((bitsNumber - 1) / 8) + 1;
-		byte[] result = new byte[bytesNumber];
+		int newByteArraySize = ((bitsNumber - 1) / 8) + 1;
+		byte[] result = new byte[newByteArraySize];
 
 		for (int i = 0; i < bitsNumber; i++) {
-			int bit = getBit(source, startPosition + i);
-			setBit(result, i, bit);
+			int selectedBit = getBit(source, startPosition + i);
+			setBit(result, i, selectedBit);
 		}
 
 		return result;
@@ -91,9 +91,9 @@ public final class BitJuggler {
 	/**
 	 * Ustawia bit na podanej pozycji na podana wartość. Numer bitu liczony jest
 	 * od lewej do prawej zaczynając od 0.
-	 * @param destination - źródłowa tablica bajtów.
+	 * @param destination źródłowa tablica bajtów.
 	 * @param position pozycja bitu do ustawienia.
-	 * @param value - wartość na ktora chcemy ustawic bit (1 lub 0).
+	 * @param value wartość na ktora chcemy ustawic bit (1 lub 0).
 	 */
 	public static void setBit(byte[] destination, int position, int value) {
 		if (destination == null)
@@ -116,11 +116,11 @@ public final class BitJuggler {
 
 	/**
 	 * Ustawia określone bity przesłanej tablicy na bity przesłane w tablicy pomocniczej.
-	 * @param destination - tablica bitów w której zmieniamy bity.
-	 * @param destStartPosition - pozycja (wlacznie) od której ma się zacząć ustawianie bitów. Numeracja od 0.
-	 * @param source - bity które mają zostać wprowadzone.
-	 * @param srcStartPosition - pozycja (wlacznie) od której mają być czytane bity. Numeracja od 0.
-	 * @param length - ilość bitów z tablicy źródłowej, które mają zostać przepisane.
+	 * @param destination tablica bitów w której zmieniamy bity.
+	 * @param destStartPosition pozycja (wlacznie) od której ma się zacząć ustawianie bitów. Numeracja od 0.
+	 * @param source bity które mają zostać wprowadzone.
+	 * @param srcStartPosition pozycja (wlacznie) od której mają być czytane bity. Numeracja od 0.
+	 * @param length ilość bitów z tablicy źródłowej, które mają zostać przepisane.
 	 */
 	public static void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
 		if (destination == null || source == null) 
@@ -137,9 +137,9 @@ public final class BitJuggler {
 	/**
 	 * Rotuje wybrane bity z tablicy bajtów w lewą stronę, a natępnie umieszcza
 	 * je w nowej tablicy bajtów z uzupełnieniem zerami. 
-	 * @param source - źródłowa tablica bajtow.
-	 * @param bitsNumber - ilość bitów do rotowania liczona od lewej do prawej.
-	 * @param step - wielkość kroku.
+	 * @param source źródłowa tablica bajtow.
+	 * @param bitsNumber ilość bitów do rotowania liczona od lewej do prawej.
+	 * @param step wielkość kroku.
 	 * @return Tablica bajtów z wynikiem rotacji.
 	 */
 	public static byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
@@ -153,61 +153,60 @@ public final class BitJuggler {
 	}
 
 	/**
-	 * Rozdziela podany ciag bitow na pomniejsze ciagi. Ilosc bitow musi sie dac
-	 * podzilic bez reszty przez parametr lenght.
-	 * 
-	 * @param input
-	 *            Wejsciowy ciag bitow.
-	 * @param lenght
-	 *            Ilosc bitow w kazdym podciagu.
-	 * @return Tablica bajtow gdzie kazdy Bajt zawiera jeden podciag.
+	 * Rozdziela podany ciąg bitów na mniejsze podciągi. 
+	 * Ilosc wszystkich bitów musi sie dać podzilić bez reszty przez parametr lenght.
+	 * @param source źródłowa tablica bajtów.
+	 * @param lenght ilosc bitów w każdym podciagu.
+	 * @return Tablica bajtów gdzie każdy bajt zawiera jeden podciag o podanej długości.
 	 */
-	public static byte[] separateBytes(byte[] input, int lenght) {
-		int numOfBytes = (8 * input.length - 1) / lenght + 1;
-		byte[] out = new byte[numOfBytes];
-		for (int i = 0; i < numOfBytes; i++) {
+	public static byte[] separateBits(byte[] source, int lenght) {
+		if (source == null)
+			throw new IllegalArgumentException("source array is null");
+		
+		if (((source.length * 8) % lenght != 0) && lenght < 0 && lenght > 8)
+			throw new IllegalArgumentException("wrong lenght");
+		
+		int newByteArraySize = (8 * source.length - 1) / lenght + 1;
+		byte[] result = new byte[newByteArraySize];
+		for (int i = 0; i < newByteArraySize; i++) {
 			for (int j = 0; j < lenght; j++) {
-				int val = getBit(input, lenght * i + j);
-				setBit(out, 8 * i + j, val);
+				int selectedBit = getBit(source, lenght * i + j);
+				setBit(result, 8 * i + j, selectedBit);
 			}
 		}
-		return out;
+		return result;
 	}
 
 	/**
-	 * Laczy dwa ciagi bitow w jeden czytany od lewej do prawej.
-	 * 
-	 * @param first
-	 *            Pierwszy ciag.
-	 * @param firstLenght
-	 *            Ilosc bitow z pierwszego ciagu liczona od pozycji 0.
-	 * @param second
-	 *            drugi ciag.
-	 * @param secondLenght
-	 *            Ilosc bitow z drugiego ciagu liczona od pozycji 0.
-	 * @return Tablica bajtow zawierajacy polaczony ciag bitow.
+	 * Łączy dwa ciagi bitów w jeden czytany od lewej do prawej.
+	 * @param firstSeries pierwszy ciąg bitów.
+	 * @param firstLenght ilość bitów z pierwszego ciągu liczona od 0.
+	 * @param secondSeries drugi ciąg bitów.
+	 * @param secondLenght ilość bitów z drugiego ciągu liczona od 0.
+	 * @return Tablica bajtów zawierająca połączony ciąg bitów.
 	 */
-	public static byte[] concatBits(byte[] first, int firstLenght, byte[] second, int secondLenght) {
-		int numOfBytes = (firstLenght + secondLenght - 1) / 8 + 1;
-		byte[] output = new byte[numOfBytes];
+	public static byte[] concatBitSeries(byte[] firstSeries, int firstLenght, byte[] secondSeries, int secondLenght) {
+		int newByteArraySize = (firstLenght + secondLenght - 1) / 8 + 1;
+		byte[] result = new byte[newByteArraySize];
 		int j = 0;
 
 		for (int i = 0; i < firstLenght; i++) {
-			int val = getBit(first, i);
-			setBit(output, j, val);
+			int selectedBit = getBit(firstSeries, i);
+			setBit(result, j, selectedBit);
 			j++;
 		}
 		for (int i = 0; i < secondLenght; i++) {
-			int val = getBit(second, i);
-			setBit(output, j, val);
+			int selectedBit = getBit(secondSeries, i);
+			setBit(result, j, selectedBit);
 			j++;
 		}
-		return output;
+		
+		return result;
 	}
 
 	/**
 	 * Zwraca bitową reprezentację tablicy bajtów jako łańcuch znakowy.
-	 * @param source - źródłowa tablica bitów.
+	 * @param source źródłowa tablica bitów.
 	 * @return Łancuch znakowy reprezentujący ciąg bitów.
 	 */
 	public static String toString(byte[] source) {
