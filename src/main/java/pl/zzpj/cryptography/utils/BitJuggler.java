@@ -1,4 +1,4 @@
-package pl.lodz.p.zzpj.utils;
+package pl.zzpj.cryptography.utils;
 
 public final class BitJuggler {
 

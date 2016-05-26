@@ -1,8 +1,10 @@
-package pl.lodz.p.zzpj.utils;
+package pl.zzpj.cryptography.tests;
 
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
+
+import pl.zzpj.cryptography.utils.BitJuggler;
 
 
 public class BitJugglerTest {
