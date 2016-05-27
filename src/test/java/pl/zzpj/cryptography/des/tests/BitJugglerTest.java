@@ -1,10 +1,10 @@
-package pl.zzpj.cryptography.tests;
+package pl.zzpj.cryptography.des.tests;
 
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
-import pl.zzpj.cryptography.utils.BitJuggler;
+import pl.zzpj.cryptography.des.utils.BitJuggler;
 
 
 public class BitJugglerTest {
@@ -62,16 +62,6 @@ public class BitJugglerTest {
 		BitJuggler.setBit(sourceArray, bitNumber, newBitValue);
 		
 		assertThat(sourceArray).isEqualTo(expectedArray);
-	}
-	
-	@Test
-	public void shouldReturnBitRepresentationOfByteArrayInString() {
-		byte[] sourceArray = {91, 124};
-		String expectedString = "01011011 01111100";
-		
-		String operationResult = BitJuggler.toString(sourceArray);
-		
-		assertThat(operationResult).isEqualTo(expectedString);
 	}
 	
 	@Test

@@ -1,4 +1,4 @@
-package pl.zzpj.cryptography.utils;
+package pl.zzpj.cryptography.des.utils;
 
 public final class BitJuggler {
 
@@ -202,23 +202,6 @@ public final class BitJuggler {
 		}
 		
 		return result;
-	}
-
-	/**
-	 * Zwraca bitową reprezentację tablicy bajtów jako łańcuch znakowy.
-	 * @param source źródłowa tablica bitów.
-	 * @return Łancuch znakowy reprezentujący ciąg bitów.
-	 */
-	public static String toString(byte[] source) {
-		StringBuilder sb = new StringBuilder();
-
-		for (int i = 0; i < source.length * 8; i++) {
-			if (i % 8 == 0 && i != 0)
-				sb.append(" ");
-			sb.append(getBit(source, i));
-		}
-
-		return sb.toString();
 	}
 
 	private BitJuggler() { }
