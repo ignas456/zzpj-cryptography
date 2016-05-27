@@ -19,7 +19,7 @@ public class BitPrinterTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void toStringShouldThrowIllegalArgumentException() {
+	public void toStringShouldThrowIllegalArgumentExceptionForNullSource() {
 		byte[] sourceArray = null;
 		
 		BitPrinter.toString(sourceArray);
