@@ -1,8 +1,8 @@
 package pl.zzpj.cryptography.des.algorithm;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
+import pl.zzpj.cryptography.des.utils.ArrayUtils;
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 
 public class DES {
@@ -14,7 +14,7 @@ public class DES {
   }
 
   public byte[] enctrypt(byte[] src, boolean isDecrypt) {
-    byte[][] srcIn2D = this.to2DimensionsArray(src);
+    byte[][] srcIn2D = ArrayUtils.transformToTwoDimensionsArray(src);
     
     byte[][] tmp = new byte[srcIn2D.length][8];
     for (int i = 0; i < tmp.length; i++) {
@@ -36,7 +36,7 @@ public class DES {
       tmp[tmp.length - 1] = Arrays.copyOfRange(tmp[tmp.length - 1], 0, 8 - counter);
     }
 
-    return this.to1DimensionArray2(tmp);
+    return ArrayUtils.transformToOneDimensionArray(tmp);
   }
   
   public byte[] encrypt8ByteBlock(byte[] block, boolean isDecrypt) {
@@ -63,33 +63,6 @@ public class DES {
     result = this.permute(result, DESPermutationTables.FP);
     
     return result;
-  }
-  
-  // Prosze sie nie smiac !!
-  private byte[] to1DimensionArray2(byte[][] bytes) {
-    ArrayList<Byte> res = new ArrayList<Byte>();
-    
-    for (byte[] byteArray : bytes) {
-      for (byte b : byteArray) {
-        res.add(b);
-      }
-    }
-    
-    byte[] r = new byte[res.size()];
-    
-    for (int i = 0; i < r.length; i++) {
-      r[i] = res.get(i);
-    }
-    
-    return r;
-  }
-  
-  private byte[][] to2DimensionsArray(byte[] bytes) {
-    byte[][] blocks = new byte[(bytes.length - 1) / 8 + 1][8];
-    for (int i = 0; i < blocks.length; i++) {
-      blocks[i] = Arrays.copyOfRange(bytes, i * 8, (i + 1) * 8);
-    }
-    return blocks;
   }
   
   private byte[] permute(byte[] input, byte[] permutationTable) {

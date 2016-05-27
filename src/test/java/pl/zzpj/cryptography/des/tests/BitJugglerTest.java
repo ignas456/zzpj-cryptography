@@ -29,30 +29,6 @@ public class BitJugglerTest {
 	}
 	
 	@Test
-	public void shouldExtendArraySizeBy2() {
-		byte[] sourceArray = {1, 2};
-		byte[] expectedArray = {1, 2, 0, 0};
-		
-		byte[] operationResult = BitJuggler.extendArraySize(sourceArray, sourceArray.length + 2);
-		
-		assertThat(operationResult).isEqualTo(expectedArray);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void extendArraySizeShouldThrowIllegalArgumentExceptionForNullSource() {
-		byte[] sourceArray = null;
-		
-		BitJuggler.extendArraySize(sourceArray, 2);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void extendArraySizeShouldThrowIllegalArgumentExceptionForNegativeNewLength() {
-		byte[] sourceArray = {1, 2};
-		
-		BitJuggler.extendArraySize(sourceArray, -1);
-	}
-	
-	@Test
 	public void shouldReturnOneBitFromByteArray() {
 		byte[] sourceArray = {1, 2};
 		int bitPosition = 14;

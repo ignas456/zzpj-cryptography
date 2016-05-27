@@ -15,10 +15,10 @@ public final class BitJuggler {
 			throw new IllegalArgumentException("Source array is null");
 		
 		if (src1.length > src2.length) 
-			src2 = extendArraySize(src2, src1.length);
+			src2 = ArrayUtils.extendArraySize(src2, src1.length);
 		
 		if (src1.length < src2.length) 
-			src1 = extendArraySize(src1, src2.length);
+			src1 = ArrayUtils.extendArraySize(src1, src2.length);
 		
 		byte[] result = new byte[src1.length];
 		for (int i = 0; i < src1.length; i++) {
@@ -28,26 +28,6 @@ public final class BitJuggler {
 		return result;
 	}
 
-	/**
-	 * Rozszerza rozmiar tablicy powiekszając ją do podanej długości.
-	 * Nowe komórki uzupełniane za zerami.
-	 * @param array tablica którą chcemy poszerzyć
-	 * @param newLength długość o jaką chcemy poszerzyć tablicę
-	 * @return poszerzona tablica.
-	 */
-	public static byte[] extendArraySize(byte[] array, int newLength) {
-		if (array == null)
-			throw new IllegalArgumentException("Source array is null");
-		
-		if (newLength < 0)
-			throw new IllegalArgumentException("newLength is negative number");
-		
-		byte[] result = new byte[newLength];
-		System.arraycopy(array, 0, result, 0, array.length);
-		
-		return result;
-	}
-	
 	/**
 	 * Zwraca wartość bitu na podanej pozycji w całej tablicy bajtów.
 	 * Bity są liczone od lewej do prawej od indeksu 0.
