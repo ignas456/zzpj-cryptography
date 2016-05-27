@@ -11,7 +11,7 @@ public class DES {
   private FFunction fFunction;
   
   public DES(byte[] key) {
-    this.fFunction = new FFunction(key);
+    this.fFunction = new FFunction(new SubKeyGenerator(key));
   }
 
   public byte[] encrypt(byte[] src, boolean isDecrypt) {

@@ -1,15 +1,17 @@
 package pl.zzpj.cryptography.des.algorithm;
 
+
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 import pl.zzpj.cryptography.des.utils.MatrixUtils;
+import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
 public class FFunction {
 	
 	private byte[][] subKeys;
-	private SubKeyGenerator subKeyGenerator;
+	private KeyGenerator subKeyGenerator;
 	
-	public FFunction(byte[] key){
-		subKeyGenerator = new SubKeyGenerator(key);
+	public FFunction(KeyGenerator subKeyGenerator){
+		this.subKeyGenerator = subKeyGenerator;
 		this.subKeys = subKeyGenerator.generateSubKeys();
 	}
 	
