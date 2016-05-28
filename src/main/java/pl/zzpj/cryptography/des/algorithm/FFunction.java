@@ -8,10 +8,8 @@ import pl.zzpj.cryptography.interfaces.KeyGenerator;
 public class FFunction {
 	
 	private byte[][] subKeys;
-	private KeyGenerator subKeyGenerator;
 	
 	public FFunction(KeyGenerator subKeyGenerator){
-		this.subKeyGenerator = subKeyGenerator;
 		this.subKeys = subKeyGenerator.generateSubKeys();
 	}
 	
