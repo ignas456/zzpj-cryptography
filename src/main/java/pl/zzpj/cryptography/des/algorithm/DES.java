@@ -56,14 +56,14 @@ public class DES {
 	}
 	
 	private byte[] encrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorythm(sourceBlock, false);
+		return this.performDESAlgorithm(sourceBlock, false);
 	}
 	
 	private byte[] decrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorythm(sourceBlock, true);
+		return this.performDESAlgorithm(sourceBlock, true);
 	}
 	
-	private byte[] performDESAlgorythm(byte[] block, boolean operation) {
+	private byte[] performDESAlgorithm(byte[] block, boolean operation) {
 		byte[] permutedOrginalBlock = MatrixUtils.permute(block, DESPermutationTables.IP);
 
 		int blockBitsNumber = permutedOrginalBlock.length / 2 * 8;
