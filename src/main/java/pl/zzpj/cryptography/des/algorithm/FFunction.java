@@ -17,7 +17,7 @@ public class FFunction {
 		byte[] result;
 	    
 	    result = MatrixUtils.permute(input, DESPermutationTables.E);
-	    result = BitJuggler.xorArrays(result, subKeys[roundNumber]);
+	    result = BitJuggler.xorArrays(result, this.subKeys[roundNumber]);
 	    result = this.useSBoxes(result);
 	    result = MatrixUtils.permute(result, DESPermutationTables.P);
 	    
@@ -25,8 +25,8 @@ public class FFunction {
 	}
 	
 	private byte[] useSBoxes(byte[] input) {
-	    byte[] inputAfterSeparation = BitJuggler.separateBits(input, 6);      // length = 8
-	    byte[] rowAndColumn = {0, 0}; // 00000000 00000000 // 0-7 row bits, 8-15 column bits
+	    byte[] inputAfterSeparation = BitJuggler.separateBits(input, 6);      // inputAfterSeparation.length = 8
+	    byte[] rowAndColumn = {0, 0}; // 00000000 00000000 --> 0-7 row bits, 8-15 column bits
 	    byte[] result = new byte[4];
 	    
 	    for (int i = 0, j = 0; i < inputAfterSeparation.length; i++, j += 4) {
