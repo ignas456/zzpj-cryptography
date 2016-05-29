@@ -8,10 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ 
 	ArrayUtilsTest.class, 
 	BitJugglerTest.class, 
-	BitPrinterTest.class,
-	SubKeyGeneratorTest.class,
-	FFunctionTest.class,
-	DESTest.class
+	BitPrinterTest.class 
 })
 public class AllTests {
 
