@@ -13,6 +13,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	FFunctionTest.class,
 	DESTest.class
 })
-public class AllTests {
+public class AllDESTests {
 
 }
