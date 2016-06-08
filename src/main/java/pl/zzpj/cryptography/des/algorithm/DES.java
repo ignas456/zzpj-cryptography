@@ -56,14 +56,14 @@ public class DES {
 	}
 	
 	private byte[] encrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorithm(sourceBlock, false);
+		return this.performDESAlgorithm(sourceBlock, DESOperations.ENCRYPT);
 	}
 	
 	private byte[] decrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorithm(sourceBlock, true);
+		return this.performDESAlgorithm(sourceBlock, DESOperations.DECRYPT);
 	}
 	
-	private byte[] performDESAlgorithm(byte[] block, boolean operation) {
+	private byte[] performDESAlgorithm(byte[] block, DESOperations operation) {
 		byte[] permutedOrginalBlock = MatrixUtils.permute(block, DESPermutationTables.IP);
 
 		int blockBitsNumber = permutedOrginalBlock.length / 2 * 8;
@@ -74,10 +74,13 @@ public class DES {
 		for (int i = 0; i < 16; i++) {
 			byte[] memoredRightPart = rightBlockPart;
 
-			if (operation) {
-				rightBlockPart = fFunction.perform(rightBlockPart, ROUNDS_NUMBER - 1 - i);
-			} else {
+			switch (operation) {
+			case ENCRYPT:
 				rightBlockPart = fFunction.perform(rightBlockPart, i);
+				break;
+			case DECRYPT:
+				rightBlockPart = fFunction.perform(rightBlockPart, ROUNDS_NUMBER - 1 - i);
+				break;
 			}
 
 			rightBlockPart = BitJuggler.xorArrays(leftBlockPart, rightBlockPart);
