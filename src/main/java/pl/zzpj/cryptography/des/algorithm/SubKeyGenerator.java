@@ -1,10 +1,15 @@
 package pl.zzpj.cryptography.des.algorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 import pl.zzpj.cryptography.des.utils.MatrixUtils;
-import pl.zzpj.cryptography.interfaces.KeyGenerator;
+import pl.zzpj.cryptography.interfaces.IRandomKeyGenerator;
+import pl.zzpj.cryptography.interfaces.ISubKeyGenerator;
 
-public class SubKeyGenerator implements KeyGenerator{
+@Service
+public class SubKeyGenerator implements ISubKeyGenerator {
 	
 	private static int NUMBER_OF_SUBKEYS = 16;
 	
@@ -12,8 +17,9 @@ public class SubKeyGenerator implements KeyGenerator{
 	private byte[] C0,D0;
 	private byte[][] subKeys;
 	
-	public SubKeyGenerator(byte [] key){
-		this.key = key;
+	@Autowired
+	public SubKeyGenerator(IRandomKeyGenerator keyGenerator){
+		this.key = keyGenerator.generateKey();
 		subKeys = new byte[NUMBER_OF_SUBKEYS][];
 	}
 	

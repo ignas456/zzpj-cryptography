@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 	
-	@RequestMapping("*")
+	@RequestMapping("/")
     public String greeting() {
         return "index";
     }

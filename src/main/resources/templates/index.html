@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://thymeleaf.org">
 	<head>
 		<title>ZZPJ Cryptography App</title> 
     	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
-	<body>
-	Tutaj będą kontrolki :D
-
+	<body ng-app="zzpjcrypt">
+		<div ng-controller="IndexController">{{testText}}</div>
 	</body>
+    <script  th:src="@{/webjars/angularjs/1.5.7/angular.min.js}"></script>
+    <script  th:src="@{js/controllers/IndexController.js}"></script>
 </html>

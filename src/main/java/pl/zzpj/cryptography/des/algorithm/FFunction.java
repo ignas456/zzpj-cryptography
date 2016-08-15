@@ -1,19 +1,25 @@
 package pl.zzpj.cryptography.des.algorithm;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 import pl.zzpj.cryptography.des.utils.MatrixUtils;
-import pl.zzpj.cryptography.interfaces.KeyGenerator;
+import pl.zzpj.cryptography.interfaces.IFFunction;
+import pl.zzpj.cryptography.interfaces.ISubKeyGenerator;
 
-public class FFunction {
+@Service
+public class FFunction implements IFFunction {
 	
 	private byte[][] subKeys;
 	
-	public FFunction(KeyGenerator subKeyGenerator){
+	@Autowired
+	public FFunction(ISubKeyGenerator subKeyGenerator) {
 		this.subKeys = subKeyGenerator.generateSubKeys();
 	}
 	
-	public byte[] perform(byte[] input, int roundNumber){
+	public byte[] perform(byte[] input, int roundNumber) {
 		byte[] result;
 	    
 	    result = MatrixUtils.permute(input, DESPermutationTables.E);
