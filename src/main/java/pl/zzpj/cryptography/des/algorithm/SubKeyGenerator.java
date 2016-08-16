@@ -1,24 +1,25 @@
 package pl.zzpj.cryptography.des.algorithm;
 
+import org.springframework.stereotype.Service;
+
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 import pl.zzpj.cryptography.des.utils.MatrixUtils;
 import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
-public class SubKeyGenerator implements KeyGenerator{
+@Service
+public class SubKeyGenerator implements KeyGenerator {
 	
 	private static final int NUMBER_OF_SUBKEYS = 16;
 	
-	private byte[] key;
 	private byte[] C0, D0;
 	private byte[][] subKeys;
 	
-	public SubKeyGenerator(byte[] key){
-		this.key = key;
+	public SubKeyGenerator(){
 		this.subKeys = new byte[NUMBER_OF_SUBKEYS][];
 	}
 	
-	public byte[][] generateSubKeys() { 
-	    byte[] permutedKey = MatrixUtils.permute(this.key, DESPermutationTables.PC1);
+	public byte[][] generateSubKeys(byte[] key) { 
+	    byte[] permutedKey = MatrixUtils.permute(key, DESPermutationTables.PC1);
 	    byte[][] subKeys = this.performPermutedKeySplittingAndRotating(permutedKey);
 	    
 	    return subKeys;

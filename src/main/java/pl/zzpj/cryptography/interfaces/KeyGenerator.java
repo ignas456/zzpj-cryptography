@@ -1,5 +1,5 @@
 package pl.zzpj.cryptography.interfaces;
 
 public interface KeyGenerator {
-	public byte[][] generateSubKeys();
+	public byte[][] generateSubKeys(byte[] key);
 }

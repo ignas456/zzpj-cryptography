@@ -2,23 +2,34 @@ package pl.zzpj.cryptography.des.algorithm;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 import pl.zzpj.cryptography.des.utils.ArrayUtils;
 import pl.zzpj.cryptography.des.utils.BitJuggler;
 import pl.zzpj.cryptography.des.utils.MatrixUtils;
+import pl.zzpj.cryptography.interfaces.IDes;
+import pl.zzpj.cryptography.interfaces.IFFunction;
 
-public class DES {
+@Component
+public class DES implements IDes {
 
 	private static final int BLOCK_LENGHT = 8;
 	private static final int ROUNDS_NUMBER = 16;
 	
-	private FFunction fFunction;
-
-	public DES(byte[] key) throws InvalidKeyException {
-		this.validateKey(key);
-		this.fFunction = new FFunction(new SubKeyGenerator(key));
+	private IFFunction fFunction;
+	
+	@Autowired
+	public DES(IFFunction fFunction) {
+		this.fFunction = fFunction;
 	}
-
+	
+	public void setKey(byte[] key) throws InvalidKeyException {
+		this.validateKey(key);
+		fFunction.calculateKSubKeys(key);
+	}
+	
 	/**
 	 * Syfruje przesłany strumień bajtów
 	 * @param source źródłowy strumień bajtów
