@@ -10,7 +10,7 @@ import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 
 public class DESTest {
 	
-	private DES sut;
+	/*private DES sut;
 	private byte[] key = {1, 2, 3, 4, 5, 6, 7, 8};
 	
 	@Before
@@ -42,6 +42,6 @@ public class DESTest {
 		String msgAfterDecription = new String(decrypted);
 		
 		assertThat(msgAfterDecription).isEqualTo(message);
-	}
+	}*/
 	
 }

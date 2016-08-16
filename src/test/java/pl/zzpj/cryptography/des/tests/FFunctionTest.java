@@ -13,7 +13,7 @@ import pl.zzpj.cryptography.des.algorithm.SubKeyGenerator;
 public class FFunctionTest {
 	private static SubKeyGenerator mockedSubKeyGenerator;
 	
-	@BeforeClass
+	/*@BeforeClass
 	public static void prepare(){
 		byte[][] expectedSubKeys = {{0, 0, 0, 19, 42, -126},
 				{0, 0, 0, 16, 35, 7},
@@ -50,5 +50,5 @@ public class FFunctionTest {
 		//then
 		assertThat(outcome).isEqualTo(expected);
 		
-	}
+	}*/
 }
