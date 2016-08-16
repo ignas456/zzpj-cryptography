@@ -17,6 +17,5 @@ public class InvalidKeyException extends Exception {
 	}
 
 	public InvalidKeyException(Throwable cause) {
-	    super(cause);
-	}
+	    super(cause);	}
 }
