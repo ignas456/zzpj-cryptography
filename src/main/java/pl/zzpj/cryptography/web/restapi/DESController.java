@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pl.zzpj.cryptography.interfaces.IDes;
 
-@RestController("/api/des")
+@RestController
+@RequestMapping("/api/des")
 public class DESController {
 	
 	private final IDes des;
