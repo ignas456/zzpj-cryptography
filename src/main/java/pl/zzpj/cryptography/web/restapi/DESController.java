@@ -5,8 +5,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
 import pl.zzpj.cryptography.interfaces.IDes;
 
 @RestController
@@ -20,8 +23,23 @@ public class DESController {
 		this.des = des;
 	}
 	
-	@RequestMapping("/encrypt")
-	public HttpEntity encryptText() {
+	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST)
+	public @ResponseBody HttpEntity encryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) {
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/encrypt/text", method = RequestMethod.POST)
+	public @ResponseBody HttpEntity encryptText(@RequestParam("text") MultipartFile file, @RequestParam("key") String key) {
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
+	public @ResponseBody HttpEntity decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) {
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/decrypt/text", method = RequestMethod.POST)
+	public @ResponseBody HttpEntity decryptText(@RequestParam("text") MultipartFile file, @RequestParam("key") String key) {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
