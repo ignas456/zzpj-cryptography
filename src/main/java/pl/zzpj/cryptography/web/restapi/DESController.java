@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 import pl.zzpj.cryptography.interfaces.IDes;
 
 @RestController
@@ -29,7 +31,7 @@ public class DESController {
 	}
 	
 	@RequestMapping(path = "/encrypt/text", method = RequestMethod.POST)
-	public @ResponseBody HttpEntity encryptText(@RequestParam("text") MultipartFile file, @RequestParam("key") String key) {
+	public @ResponseBody HttpEntity encryptText(@RequestParam("text") String text, @RequestParam("key") String key) {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	
@@ -39,7 +41,7 @@ public class DESController {
 	}
 	
 	@RequestMapping(path = "/decrypt/text", method = RequestMethod.POST)
-	public @ResponseBody HttpEntity decryptText(@RequestParam("text") MultipartFile file, @RequestParam("key") String key) {
+	public @ResponseBody HttpEntity decryptText(@RequestParam("text") String text, @RequestParam("key") String key) {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
