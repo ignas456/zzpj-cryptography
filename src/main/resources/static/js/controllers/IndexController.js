@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('zzpjcrypt',[])
+        .module('zzpjcrypt',['ngFileUpload'])
         .controller('IndexController', IndexController);
     
     IndexController.$inject = ['$scope'];
