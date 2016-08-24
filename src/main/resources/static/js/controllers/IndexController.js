@@ -10,11 +10,11 @@
     function IndexController($scope, Upload, $http) { 
     	$scope.testText = "AngularDziala";
     	
-    	$scope.uploadFile=function($files){
+    	$scope.uploadFile=function(files){
     	    var formData=new FormData();
-    	    console.log($files)
+    	    console.log(files)
     	    formData.append("key","asdaasda")
-    	    formData.append("file", $files[0]);
+    	    formData.append("file", files[0]);
     	    
     	    var request = new XMLHttpRequest();
     	    request.open('POST', 'api/des/encrypt/file');
