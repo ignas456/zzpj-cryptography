@@ -3,16 +3,29 @@ package pl.zzpj.cryptography.des.tests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import pl.zzpj.cryptography.ZzpjCryptographyApplication;
 import pl.zzpj.cryptography.des.algorithm.SubKeyGenerator;
+import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(ZzpjCryptographyApplication.class)
+@WebAppConfiguration
 public class SubKeyGeneratorTest {
 	
-	/*@Test
+	@Autowired
+	private KeyGenerator sut;
+	
+	@Test
 	public void shouldGenerateSubKeysForGivenKey(){
 		//given
 		byte[] key = {1, 2, 3, 4, 5, 6, 7, 8};
-		SubKeyGenerator sut = new SubKeyGenerator(key);
 		byte[][] expectedSubKeys = {{0, 0, 0, 19, 42, -126},
 				{0, 0, 0, 16, 35, 7},
 				{0, 0, 0, -74, 0, -124},
@@ -31,10 +44,10 @@ public class SubKeyGeneratorTest {
 				{0, 0, 0, -93, 66, -128}};
 		
 		//when
-		byte[][] subKeys =  sut.generateSubKeys();
+		byte[][] subKeys =  sut.generateSubKeys(key);
 		
 		//then
 		assertThat(subKeys).isEqualTo(expectedSubKeys);
 		
-	}*/
+	}
 }
