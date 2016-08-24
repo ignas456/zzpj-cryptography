@@ -5,8 +5,13 @@
     	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body ng-app="zzpjcrypt">
-		<div ng-controller="IndexController">{{testText}}</div>
+		<div ng-controller="IndexController">{{testText}}
+			<input name ="file" type="file" ngf-select="uploadFile($files)"></input>
+		</div>
+		
 	</body>
     <script  th:src="@{/webjars/angularjs/1.5.7/angular.min.js}"></script>
+    <script  th:src="@{/webjars/angular-file-upload/11.0.0/ng-file-upload.min.js}"></script>
     <script  th:src="@{js/controllers/IndexController.js}"></script>
+    
 </html>
