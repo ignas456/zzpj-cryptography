@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
-import pl.zzpj.cryptography.des.utils.ArrayUtils;
-import pl.zzpj.cryptography.des.utils.BitJuggler;
-import pl.zzpj.cryptography.des.utils.MatrixUtils;
+import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
+import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
+import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 import pl.zzpj.cryptography.interfaces.IDes;
 import pl.zzpj.cryptography.interfaces.IFFunction;
 
@@ -17,6 +17,15 @@ public class DES implements IDes {
 
 	private static final int BLOCK_LENGHT = 8;
 	private static final int ROUNDS_NUMBER = 16;
+	
+	@Autowired
+	private BitJuggler bitJuggler;
+	
+	@Autowired
+	private MatrixPermutation matrixPermutation;
+	
+	@Autowired
+	private ArrayUtils arrayUtils;
 	
 	private IFFunction fFunction;
 	
@@ -36,7 +45,7 @@ public class DES implements IDes {
 	 * @return Zaszyfrowany strumień bajtów
 	 */
 	public final byte[] encrypt(byte[] source) {
-		byte[][] sourceDividedInto8ByteBlocks = ArrayUtils.transformToTwoDimensionsArray(source);
+		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
 
 		byte[][] encryptedSourceIn8ByteBlocks = new byte[sourceDividedInto8ByteBlocks.length][BLOCK_LENGHT];
 
@@ -44,7 +53,7 @@ public class DES implements IDes {
 			encryptedSourceIn8ByteBlocks[i] = this.encrypt8ByteBlock(sourceDividedInto8ByteBlocks[i]);
 		}
 
-		return ArrayUtils.transformToOneDimensionArray(encryptedSourceIn8ByteBlocks);
+		return arrayUtils.transformToOneDimensionArray(encryptedSourceIn8ByteBlocks);
 	}
 	
 	/**
@@ -53,7 +62,7 @@ public class DES implements IDes {
 	 * @return Zdeszyfrowany strumień bajtów
 	 */
 	public final byte[] decrypt(byte[] source) {
-		byte[][] sourceDividedInto8ByteBlocks = ArrayUtils.transformToTwoDimensionsArray(source);
+		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
 
 		byte[][] decryptedSourceIn8ByteBlocks = new byte[sourceDividedInto8ByteBlocks.length][BLOCK_LENGHT];
 
@@ -63,7 +72,7 @@ public class DES implements IDes {
 
 		decryptedSourceIn8ByteBlocks = this.removeUnnecessaryBytes(decryptedSourceIn8ByteBlocks);
 		
-		return ArrayUtils.transformToOneDimensionArray(decryptedSourceIn8ByteBlocks);
+		return arrayUtils.transformToOneDimensionArray(decryptedSourceIn8ByteBlocks);
 	}
 	
 	private byte[] encrypt8ByteBlock(byte[] sourceBlock) {
@@ -75,12 +84,12 @@ public class DES implements IDes {
 	}
 	
 	private byte[] performDESAlgorithm(byte[] block, DESOperations operation) {
-		byte[] permutedOrginalBlock = MatrixUtils.permute(block, DESPermutationTables.IP);
+		byte[] permutedOrginalBlock = matrixPermutation.permute(block, DESPermutationTables.IP);
 
 		int blockBitsNumber = permutedOrginalBlock.length / 2 * 8;
 		
-		byte[] leftBlockPart = BitJuggler.getBits(permutedOrginalBlock, 0, blockBitsNumber);
-		byte[] rightBlockPart = BitJuggler.getBits(permutedOrginalBlock, blockBitsNumber, blockBitsNumber);
+		byte[] leftBlockPart = bitJuggler.getBits(permutedOrginalBlock, 0, blockBitsNumber);
+		byte[] rightBlockPart = bitJuggler.getBits(permutedOrginalBlock, blockBitsNumber, blockBitsNumber);
 
 		for (int i = 0; i < 16; i++) {
 			byte[] memoredRightPart = rightBlockPart;
@@ -94,13 +103,13 @@ public class DES implements IDes {
 				break;
 			}
 
-			rightBlockPart = BitJuggler.xorArrays(leftBlockPart, rightBlockPart);
+			rightBlockPart = bitJuggler.xorArrays(leftBlockPart, rightBlockPart);
 			leftBlockPart = memoredRightPart;
 
 		}
 
-		byte[] result = BitJuggler.concatBitSeries(rightBlockPart, rightBlockPart.length * 8, leftBlockPart, leftBlockPart.length * 8);
-		result = MatrixUtils.permute(result, DESPermutationTables.FP);
+		byte[] result = bitJuggler.concatBitSeries(rightBlockPart, rightBlockPart.length * 8, leftBlockPart, leftBlockPart.length * 8);
+		result = matrixPermutation.permute(result, DESPermutationTables.FP);
 
 		return result;
 	}
