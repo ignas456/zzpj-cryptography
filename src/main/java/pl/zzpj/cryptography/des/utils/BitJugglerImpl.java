@@ -1,24 +1,26 @@
 package pl.zzpj.cryptography.des.utils;
 
-public final class BitJuggler {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-	/**
-	 * Wykonuje operacje XOR na dwóch podanch tablicach bajtów.
-	 * Jeżeli tablice są różnych rozmiarów, wynikiem jest tablica długości
-	 * takiej jak tablica wejściowa o większej długości.
-	 * @param src1 pierwsza wejściowa tablica bajtów.
-	 * @param src2 druga wejściowa tablica bajtów.
-	 * @return tablica bajtów zawierająca wynik operacji XOR na tablicach wejściowych.
-	 */
-	public static byte[] xorArrays(byte[] src1, byte[] src2) {
+import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
+import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
+
+@Service
+public class BitJugglerImpl implements BitJuggler {
+
+	@Autowired
+	private ArrayUtils arrayUtils;
+	
+	public byte[] xorArrays(byte[] src1, byte[] src2) {
 		if (src1 == null || src2 == null)
 			throw new IllegalArgumentException("Source array is null");
 		
 		if (src1.length > src2.length) 
-			src2 = ArrayUtils.extendArraySize(src2, src1.length);
+			src2 = arrayUtils.extendArraySize(src2, src1.length);
 		
 		if (src1.length < src2.length) 
-			src1 = ArrayUtils.extendArraySize(src1, src2.length);
+			src1 = arrayUtils.extendArraySize(src1, src2.length);
 		
 		byte[] result = new byte[src1.length];
 		for (int i = 0; i < src1.length; i++) {
@@ -28,14 +30,7 @@ public final class BitJuggler {
 		return result;
 	}
 
-	/**
-	 * Zwraca wartość bitu na podanej pozycji w całej tablicy bajtów.
-	 * Bity są liczone od lewej do prawej od indeksu 0.
-	 * @param source źródło bajtów.
-	 * @param position pozycja pożądanego bitu.
-	 * @return wartosc bitu w postaci wartości całkowitej.
-	 */
-	public static int getBit(byte[] source, int position) {
+	public int getBit(byte[] source, int position) {
 		if (source == null) 
 			throw new IllegalArgumentException("Source array is null");
 		
@@ -51,15 +46,7 @@ public final class BitJuggler {
 		return resultBit;
 	}
 
-	/**
-	 * Pobiera określone bity z podanej tablicy bajtów.
-	 * @param source źródło bajtów.
-	 * @param startPosition pozycja od której ma zostać rozpoczęte pobieranie (włacznie).
-	 * @param bitsNumber ilosc bitów do pobrania.
-	 * @return Tablica bajów zawierajaca pobrane bity. Wynikiem jest podana ilość
-	 *         bitów od lewej z uzupełnieniem do wielokrotności liczby 8 zerami.
-	 */
-	public static byte[] getBits(byte[] source, int startPosition, int bitsNumber) {
+	public byte[] getBits(byte[] source, int startPosition, int bitsNumber) {
 		if (source == null) 
 			throw new IllegalArgumentException("Source array is null");
 		
@@ -80,14 +67,7 @@ public final class BitJuggler {
 		return result;
 	}
 
-	/**
-	 * Ustawia bit na podanej pozycji na podana wartość. Numer bitu liczony jest
-	 * od lewej do prawej zaczynając od 0.
-	 * @param destination źródłowa tablica bajtów.
-	 * @param position pozycja bitu do ustawienia.
-	 * @param value wartość na ktora chcemy ustawic bit (1 lub 0).
-	 */
-	public static void setBit(byte[] destination, int position, int value) {
+	public void setBit(byte[] destination, int position, int value) {
 		if (destination == null)
 			throw new IllegalArgumentException("Source array is null");
 		
@@ -109,15 +89,7 @@ public final class BitJuggler {
 		destination[bytePosition] = changedByte;
 	}
 
-	/**
-	 * Ustawia określone bity przesłanej tablicy na bity przesłane w tablicy pomocniczej.
-	 * @param destination tablica bitów w której zmieniamy bity.
-	 * @param destStartPosition pozycja (wlacznie) od której ma się zacząć ustawianie bitów. Numeracja od 0.
-	 * @param source bity które mają zostać wprowadzone.
-	 * @param srcStartPosition pozycja (wlacznie) od której mają być czytane bity. Numeracja od 0.
-	 * @param length ilość bitów z tablicy źródłowej, które mają zostać przepisane.
-	 */
-	public static void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
+	public void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
 		if (destination == null || source == null) 
 			throw new IllegalArgumentException("array is null");
 		
@@ -132,15 +104,7 @@ public final class BitJuggler {
 		}
 	}
 
-	/**
-	 * Rotuje wybrane bity z tablicy bajtów w lewą stronę, a natępnie umieszcza
-	 * je w nowej tablicy bajtów z uzupełnieniem zerami. 
-	 * @param source źródłowa tablica bajtow.
-	 * @param bitsNumber ilość bitów do rotowania liczona od lewej do prawej.
-	 * @param step wielkość kroku.
-	 * @return Tablica bajtów z wynikiem rotacji.
-	 */
-	public static byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
+	public byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
 		if (source == null) 
 			throw new IllegalArgumentException("Source array is null");
 		
@@ -156,14 +120,7 @@ public final class BitJuggler {
 		return result;
 	}
 
-	/**
-	 * Rozdziela podany ciąg bitów na mniejsze podciągi. 
-	 * Ilosc wszystkich bitów musi sie dać podzilić bez reszty przez parametr lenght.
-	 * @param source źródłowa tablica bajtów.
-	 * @param lenght ilosc bitów w każdym podciagu.
-	 * @return Tablica bajtów gdzie każdy bajt zawiera jeden podciag o podanej długości.
-	 */
-	public static byte[] separateBits(byte[] source, int lenght) {
+	public byte[] separateBits(byte[] source, int lenght) {
 		if (source == null)
 			throw new IllegalArgumentException("source array is null");
 		
@@ -184,15 +141,7 @@ public final class BitJuggler {
 		return result;
 	}
 
-	/**
-	 * Łączy dwa ciagi bitów w jeden czytany od lewej do prawej.
-	 * @param firstSeries pierwszy ciąg bitów.
-	 * @param firstLenght ilość bitów z pierwszego ciągu liczona od 0.
-	 * @param secondSeries drugi ciąg bitów.
-	 * @param secondLenght ilość bitów z drugiego ciągu liczona od 0.
-	 * @return Tablica bajtów zawierająca połączony ciąg bitów.
-	 */
-	public static byte[] concatBitSeries(byte[] firstSeries, int firstLenght, byte[] secondSeries, int secondLenght) {
+	public byte[] concatBitSeries(byte[] firstSeries, int firstLenght, byte[] secondSeries, int secondLenght) {
 		if (firstSeries == null || secondSeries == null)
 			throw new IllegalArgumentException("source array is null");
 		
@@ -217,6 +166,4 @@ public final class BitJuggler {
 		return result;
 	}
 
-	private BitJuggler() { }
-	
 }
