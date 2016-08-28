@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-	<head>
-		<title>ZZPJ Cryptography App</title> 
-    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body ng-app="zzpjcrypt">
-		<div ng-controller="IndexController">{{testText}}
-			<input name ="file" type="file" ngf-select="uploadFile($files)"/>
-		</div>
-		
-	</body>
-    <script  th:src="@{/webjars/angularjs/1.5.7/angular.min.js}"></script>
-    <script  th:src="@{/webjars/angular-file-upload/11.0.0/ng-file-upload.min.js}"></script>
-    <script  th:src="@{js/controllers/IndexController.js}"></script>
-    
+<head>
+    <title>ZZPJ Cryptography App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+</head>
+<body ng-app="zzpjcrypt">
+<h2>ZZPJ CYPTOGRAPHY</h2>
+<div ng-controller="IndexController as ctrl">
+    <input type="text" placeholder="Key" ng-model="ctrl.key" ng-change="ctrl.validateKey()"/>
+    <button>Generate Key</button>
+    <div style="display:block;">
+        Select input method:
+        <select ng-model="ctrl.inputType">
+            <option value="text">Text</option>
+            <option value="file">File</option>
+        </select>
+    </div>
+    <div ng-if="ctrl.inputType === 'text'" style="display:block;">
+        <div>
+            Input:
+            <textarea ng-model="ctrl.textInput">
+        </textarea>
+        </div>
+        <div>
+            Output:
+            <textarea ng-model="ctrl.textOutput" readonly="readonly">
+        </textarea>
+        </div>
+        <button ng-click="ctrl.encrypt()">Encrypt</button>
+        <button ng-click="ctrl.decrypt()">Decrypt</button>
+    </div>
+    <div ng-if="ctrl.inputType === 'file'" style="display:block;">
+        Encrypt:
+        <input name="file" type="file" ngf-select="ctrl.encryptFile($files)"/>
+
+        Decrypt:
+        <input name="file" type="file" ngf-select="ctrl.decryptFile($files)"/>
+    </div>
+
+
+</div>
+
+</body>
+<script th:src="@{/webjars/angularjs/1.5.7/angular.min.js}"></script>
+<script th:src="@{/webjars/angular-file-upload/11.0.0/ng-file-upload.min.js}"></script>
+<script th:src="@{js/controllers/IndexController.js}"></script>
+
 </html>
