@@ -13,9 +13,6 @@ public class BitPrinterImpl implements BitPrinter {
 	BitJuggler bitJuggler;
 	
 	public String printBits(byte[] source) {
-		if (source == null)
-			throw new IllegalArgumentException("source array is null");
-		
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < source.length * 8; i++) {
