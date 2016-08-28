@@ -1,15 +1,22 @@
 package pl.zzpj.cryptography.des.algorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.zzpj.cryptography.des.utils.BitJuggler;
-import pl.zzpj.cryptography.des.utils.MatrixUtils;
+import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
+import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
 @Service
 public class SubKeyGenerator implements KeyGenerator {
 	
 	private static final int NUMBER_OF_SUBKEYS = 16;
+	
+	@Autowired
+	private BitJuggler bitJuggler;
+	
+	@Autowired
+	private MatrixPermutation matrixPermutation;
 	
 	private byte[] C0, D0;
 	private byte[][] subKeys;
@@ -19,7 +26,7 @@ public class SubKeyGenerator implements KeyGenerator {
 	}
 	
 	public byte[][] generateSubKeys(byte[] key) { 
-	    byte[] permutedKey = MatrixUtils.permute(key, DESPermutationTables.PC1);
+	    byte[] permutedKey = matrixPermutation.permute(key, DESPermutationTables.PC1);
 	    byte[][] subKeys = this.performPermutedKeySplittingAndRotating(permutedKey);
 	    
 	    return subKeys;
@@ -44,8 +51,8 @@ public class SubKeyGenerator implements KeyGenerator {
 	 * @param permutedKey klucz do podzielenia
 	 */
 	private void splitPermutedKey(byte[] permutedKey){
-		this.C0 = BitJuggler.getBits(permutedKey, 0, 28);
-		this.D0 = BitJuggler.getBits(permutedKey, 28, 28);
+		this.C0 = bitJuggler.getBits(permutedKey, 0, 28);
+		this.D0 = bitJuggler.getBits(permutedKey, 28, 28);
 	}
 	
 	/**
@@ -53,11 +60,11 @@ public class SubKeyGenerator implements KeyGenerator {
 	 * @param roundNumber numer rundy
 	 */
 	private void generateSubKeyForRound(int roundNumber){
-		this.C0 = BitJuggler.rotateSelectedBitsLeft(this.C0, 28, DESPermutationTables.SUBKEY_ROTATIONS[roundNumber]);
-		this.D0 = BitJuggler.rotateSelectedBitsLeft(this.D0, 28, DESPermutationTables.SUBKEY_ROTATIONS[roundNumber]);	
+		this.C0 = bitJuggler.rotateSelectedBitsLeft(this.C0, 28, DESPermutationTables.SUBKEY_ROTATIONS[roundNumber]);
+		this.D0 = bitJuggler.rotateSelectedBitsLeft(this.D0, 28, DESPermutationTables.SUBKEY_ROTATIONS[roundNumber]);	
 	      
-		byte[] C0AndD0Together = BitJuggler.concatBitSeries(this.C0, 28, this.D0, 28);
-		C0AndD0Together = MatrixUtils.permute(C0AndD0Together, DESPermutationTables.PC2);
+		byte[] C0AndD0Together = bitJuggler.concatBitSeries(this.C0, 28, this.D0, 28);
+		C0AndD0Together = matrixPermutation.permute(C0AndD0Together, DESPermutationTables.PC2);
 		this.subKeys[roundNumber] = C0AndD0Together; 
 	}
 

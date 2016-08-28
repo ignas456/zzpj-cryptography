@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ArrayUtils {
+import org.springframework.stereotype.Service;
+
+import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
+
+@Service
+public class ArrayUtilsImpl implements ArrayUtils {
 
 	private final static int BLOCK_LENGTH = 8;
 	
-	/**
-	 * Rozszerza rozmiar tablicy powiekszając ją do podanej długości. Nowe
-	 * komórki uzupełniane za zerami.
-	 * @param array tablica którą chcemy poszerzyć
-	 * @param newLength długość o jaką chcemy poszerzyć tablicę
-	 * @return poszerzona tablica.
-	 */
-	public static byte[] extendArraySize(byte[] array, int newLength) {
+	public byte[] extendArraySize(byte[] array, int newLength) {
 		if (array == null)
 			throw new IllegalArgumentException("Source array is null");
 
@@ -28,12 +26,7 @@ public final class ArrayUtils {
 		return result;
 	}
 
-	/**
-	 * Przekształca dwuwymiarową tablicę w tablicę jednowymiarową.
-	 * @param source źródłowa tablica
-	 * @return Tablica jedno wymiarowa.
-	 */
-	public static byte[] transformToOneDimensionArray(byte[][] source) {
+	public byte[] transformToOneDimensionArray(byte[][] source) {
 		if (source == null) 
 			throw new IllegalArgumentException("source is null");
 		
@@ -42,13 +35,7 @@ public final class ArrayUtils {
 		return prefromByteListUnboxingToByteArray(byteList);
 	}
 	
-	/**
-	 * Przekształca jednowymiarową tablicę bajtów na tablicę dwuwymiarową
-	 * gdzie długość drugiego wymiaru to 8. Ostatnie wolne miejsca usupełnia zerami.
-	 * @param source źródłowa tablica bajtów
-	 * @return Tablica dwu wymiarowa, gdzie drugi wymiar to 8.
-	 */
-	public static byte[][] transformToTwoDimensionsArray(byte[] source) {
+	public byte[][] transformToTwoDimensionsArray(byte[] source) {
 		if (source == null) 
 			throw new IllegalArgumentException("source is null");
 		
@@ -61,9 +48,7 @@ public final class ArrayUtils {
 		return result;
 	}
 
-	private ArrayUtils() { }
-	
-	private static List<Byte> change2DByteArrayToByteList(byte[][] source) {
+	private List<Byte> change2DByteArrayToByteList(byte[][] source) {
 		List<Byte> result = new ArrayList<Byte>();
 
 		for (byte[] byteArray : source) {
@@ -75,7 +60,7 @@ public final class ArrayUtils {
 		return result;
 	}
 	
-	private static byte[] prefromByteListUnboxingToByteArray(List<Byte> source) {
+	private byte[] prefromByteListUnboxingToByteArray(List<Byte> source) {
 		byte[] result = new byte[source.size()];
 
 		for (int i = 0; i < result.length; i++) {
