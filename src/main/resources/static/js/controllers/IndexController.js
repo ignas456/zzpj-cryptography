@@ -22,7 +22,7 @@
     	self.textOutput = '';
 
         self.validateKey = function(){
-            keyPattern.test(self.key);
+            self.isKeyValid = keyPattern.test(self.key);
             console.log(keyPattern.test(self.key));
         }
     	self.encrypt = function(){

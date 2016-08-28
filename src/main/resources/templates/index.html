@@ -28,15 +28,15 @@
             <textarea ng-model="ctrl.textOutput" readonly="readonly">
         </textarea>
         </div>
-        <button ng-click="ctrl.encrypt()">Encrypt</button>
-        <button ng-click="ctrl.decrypt()">Decrypt</button>
+        <button ng-click="ctrl.encrypt()" ng-disabled="!ctrl.isKeyValid">Encrypt</button>
+        <button ng-click="ctrl.decrypt()" ng-disabled="!ctrl.isKeyValid">Decrypt</button>
     </div>
     <div ng-if="ctrl.inputType === 'file'" style="display:block;">
         Encrypt:
-        <input name="file" type="file" ngf-select="ctrl.encryptFile($files)"/>
+        <input name="file" type="file" ngf-select="ctrl.encryptFile($files)" ng-disabled="!ctrl.isKeyValid"/>
 
         Decrypt:
-        <input name="file" type="file" ngf-select="ctrl.decryptFile($files)"/>
+        <input name="file" type="file" ngf-select="ctrl.decryptFile($files)" ng-disabled="!ctrl.isKeyValid"/>
     </div>
 
 
