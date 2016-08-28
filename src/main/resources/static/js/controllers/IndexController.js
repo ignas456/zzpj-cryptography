@@ -41,8 +41,8 @@
 
     	self.encryptFile=function(files){
     	    var formData=new FormData();
-    	    console.log(files)
-    	    formData.append("key","asdaasda")
+    	    console.log(files);
+    	    formData.append("key",self.key);
     	    formData.append("file", files[0]);
     	    
     	    var request = new XMLHttpRequest();
@@ -63,8 +63,8 @@
 
     	self.decryptFile = function(files){
             var formData=new FormData();
-            console.log(files)
-            formData.append("key","asdaasda")
+            console.log(files);
+            formData.append("key",self.key);
             formData.append("file", files[0]);
 
             var request = new XMLHttpRequest();
