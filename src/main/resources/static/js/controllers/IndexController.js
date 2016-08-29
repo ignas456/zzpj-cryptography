@@ -42,36 +42,23 @@
     	}
 
     	self.encryptFile=function(files){
-    	    var formData=new FormData();
-    	    console.log(files);
-    	    formData.append("key",self.key);
-    	    formData.append("file", files[0]);
-
-    	    var request = new XMLHttpRequest();
-    	    request.open('POST', 'api/des/encrypt/file');
-    	    request.send(formData);
-    	    console.log(request.status);
-    	   /* $http.post('/api/des/encrypt/file', formData, {
-    	        transformRequest: function(data, headersGetterFunction) {
-    	            return data;
-    	        },
-    	        headers: { 'Content-Type': undefined }
-    	        }).success(function(data, status) {                       
-    	            alert("Success ... " + status);
-    	        }).error(function(data, status) {
-    	            alert("Error ... " + status);
-    	        });*/
+    	    Upload.upload({
+                url: 'api/des/encrypt/file',
+                data: {file: files[0], 'key': self.key}
+            })
+            .then(function (response) {
+                console.log(response.data.encryptedFile);
+            });
     	}
 
     	self.decryptFile = function(files){
-            var formData=new FormData();
-            console.log(files);
-            formData.append("key",self.key);
-            formData.append("file", files[0]);
-
-            var request = new XMLHttpRequest();
-            request.open('POST', 'api/des/decrypt/file');
-            request.send(formData);
+              Upload.upload({
+                 url: 'api/des/decrypt/file',
+                 data: {file: files[0], 'key': self.key}
+              })
+              .then(function (response) {
+                console.log(response.data.decryptedFile);
+              });
         }
     }
 })();
