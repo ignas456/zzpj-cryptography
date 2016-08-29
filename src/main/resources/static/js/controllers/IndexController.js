@@ -26,16 +26,18 @@
             console.log(keyPattern.test(self.key));
         }
     	self.encrypt = function(){
-            $http.post('api/des/encrypt/text?text=' + self.textInput + '&key=' + self.key)
+    	    var data = {text: self.textInput, key: self.key};
+            $http.post('api/des/encrypt/text', data)
             .then(function(response){
-                self.textOutput = response.data;
+                self.textOutput = response.data.encryptedText;
             });
     	}
 
     	self.decrypt = function(){
-    	    $http.post('api/des/decrypt/text?text=' + self.textInput + '&key=' + self.key)
+    	    var data = {text: self.textInput, key: self.key};
+    	    $http.post('api/des/decrypt/text', data)
                 .then(function(response){
-                    self.textOutput = response.data;
+                    self.textOutput = response.data.decryptedText;
                 });
     	}
 
@@ -44,11 +46,11 @@
     	    console.log(files);
     	    formData.append("key",self.key);
     	    formData.append("file", files[0]);
-    	    
+
     	    var request = new XMLHttpRequest();
     	    request.open('POST', 'api/des/encrypt/file');
     	    request.send(formData);
-    	    
+    	    console.log(request.status);
     	   /* $http.post('/api/des/encrypt/file', formData, {
     	        transformRequest: function(data, headersGetterFunction) {
     	            return data;
