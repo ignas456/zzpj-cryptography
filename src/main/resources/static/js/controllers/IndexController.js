@@ -42,22 +42,30 @@
     	}
 
     	self.encryptFile=function(files){
+            var name = files[0].name;
+            var type = files[0].type;
     	    Upload.upload({
                 url: 'api/des/encrypt/file',
                 data: {file: files[0], 'key': self.key}
             })
             .then(function (response) {
-                console.log(response.data.encryptedFile);
+                //console.log(response.data.encryptedFile);
+                var encrypted = new File([window.atob(response.data.encryptedFile)], name, {type: type});
+                saveAs(encrypted);
             });
     	}
 
     	self.decryptFile = function(files){
+    	      var name = files[0].name;
+              var type = files[0].type;
               Upload.upload({
                  url: 'api/des/decrypt/file',
                  data: {file: files[0], 'key': self.key}
               })
               .then(function (response) {
-                console.log(response.data.decryptedFile);
+                //console.log(response.data.decryptedFile);
+                var decrypted = new File([window.atob(response.data.decryptedFile)], name, {type: type});
+                saveAs(decrypted);
               });
         }
     }
