@@ -10,6 +10,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -44,25 +45,11 @@ public class DESController {
 	    binder.setValidator(new TextEncryptionParamsValidator());
 	}
 	
-	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST, consumes={"multipart/form-data"})
-	public HttpEntity<JSONObject> encryptFile(@RequestParam(value="file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
-		des.setKey(key.getBytes());
-		byte[] encryptedData = des.encrypt(file.getBytes());
-		return new ResponseEntity<JSONObject>(convertToJsonObject("encryptedFile", encryptedData), HttpStatus.OK);
-	}
-	
 	@RequestMapping(path = "/encrypt/text", method = RequestMethod.POST)
 	public HttpEntity<JSONObject> encryptText(@RequestBody TextEncryptionParams params) throws InvalidKeyException {
 		des.setKey(params.getKey().getBytes(defaultCharset));
 		byte[] encryptedData = des.encrypt(params.getText().getBytes(defaultCharset));
 		return new ResponseEntity<JSONObject>(convertToJsonObject("encryptedText", encryptedData), HttpStatus.OK);
-	}
-	
-	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
-	public HttpEntity<JSONObject> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
-		des.setKey(key.getBytes());
-		byte[] decryptedData = des.decrypt(file.getBytes());
-		return new ResponseEntity<JSONObject>(convertToJsonObject("decryptedFile", decryptedData), HttpStatus.OK);
 	}
 	
 	@RequestMapping(path = "/decrypt/text", method = RequestMethod.POST)
@@ -74,10 +61,40 @@ public class DESController {
 		return new ResponseEntity<JSONObject>(convertToJsonObject("decryptedText", decryptedText), HttpStatus.OK);
 	}
 	
+//	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST, consumes={"multipart/form-data"})
+//	public HttpEntity<JSONObject> encryptFile(@RequestParam(value="file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+//		des.setKey(key.getBytes());
+//		byte[] encryptedData = des.encrypt(file.getBytes());
+//		byte[] encryptedBase64 = Base64Utils.encode(encryptedData);
+//		return new ResponseEntity<JSONObject>(convertToJsonObject("encryptedFile", encryptedBase64), HttpStatus.OK);
+//	}
+	
+//	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
+//	public HttpEntity<JSONObject> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+//		des.setKey(key.getBytes());
+//		byte[] decryptedData = des.decrypt(file.getBytes());
+//		byte[] decryptedBase64 = Base64Utils.encode(decryptedData);
+//		return new ResponseEntity<JSONObject>(convertToJsonObject("decryptedFile", decryptedBase64), HttpStatus.OK);
+//	}
+	
 	private JSONObject convertToJsonObject(String key, Object value) {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(key, value);
 		return jsonObject;
+	}
+	
+	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST)
+	public HttpEntity<byte[]> encryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", file.getContentType());
+		headers.add("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		return new ResponseEntity<byte[]>(file.getBytes(), headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
+	public HttpEntity<byte[]> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(file.getBytes(), HttpStatus.OK);
+		return response;
 	}
 
 }

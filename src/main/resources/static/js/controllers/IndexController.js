@@ -15,8 +15,8 @@
 
     	self.inputType="text";
 
-    	self.key = '';
-    	self.isKeyValid = false;
+    	self.key = '12345678';
+    	self.isKeyValid = true;
 
     	self.textInput = '';
     	self.textOutput = '';
@@ -40,18 +40,26 @@
                     self.textOutput = response.data.decryptedText;
                 });
     	}
-
+    	
     	self.encryptFile=function(files){
-            var name = files[0].name;
-            var type = files[0].type;
-    	    Upload.upload({
-                url: 'api/des/encrypt/file',
-                data: {file: files[0], 'key': self.key}
-            })
-            .then(function (response) {
-                //console.log(response.data.encryptedFile);
-                var encrypted = new File([window.atob(response.data.encryptedFile)], name, {type: type});
-                saveAs(encrypted);
+            var filename = files[0].name;
+            
+            var formdata = new FormData();
+            formdata.append('file', files[0]);
+            formdata.append('key', self.key);
+            
+            var request = {
+            			method: 'POST',
+            			url: './api/des/encrypt/file',
+            			responseType: 'arraybuffer',
+            			headers: {'Content-Type': undefined},
+            			transformRequest: angular.identity,
+            			data: formdata
+            		};
+            
+            $http(request).then(function (response) {
+                var encrypted = new File([response.data], filename, {type: response.headers('Content-Type')});
+                saveAs(encrypted, filename);
             });
     	}
 
@@ -63,9 +71,8 @@
                  data: {file: files[0], 'key': self.key}
               })
               .then(function (response) {
-                //console.log(response.data.decryptedFile);
-                var decrypted = new File([window.atob(response.data.decryptedFile)], name, {type: type});
-                saveAs(decrypted);
+                var decrypted = new File([response.data], name, {type: type});
+                saveAs(decrypted, name);
               });
         }
     }
