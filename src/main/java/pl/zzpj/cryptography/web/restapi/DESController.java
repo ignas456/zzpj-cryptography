@@ -6,12 +6,14 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import javax.validation.Valid;
-import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.minidev.json.JSONObject;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 import pl.zzpj.cryptography.interfaces.IDes;
 import pl.zzpj.cryptography.web.restapi.models.TextEncryptionParams;
@@ -44,40 +45,55 @@ public class DESController {
 	    binder.setValidator(new TextEncryptionParamsValidator());
 	}
 	
-	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST, consumes={"multipart/form-data"})
-	public HttpEntity<JSONObject> encryptFile(@RequestParam(value="file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
-		des.setKey(key.getBytes());
-		byte[] encryptedData = des.encrypt(file.getBytes());
-		return new ResponseEntity<JSONObject>(convertToJsonObject("encryptedFile", encryptedData), HttpStatus.OK);
-	}
-	
 	@RequestMapping(path = "/encrypt/text", method = RequestMethod.POST)
-	public HttpEntity<JSONObject> encryptText(@RequestBody TextEncryptionParams params) throws InvalidKeyException {
-		des.setKey(params.getKey().getBytes(defaultCharset));
-		byte[] encryptedData = des.encrypt(params.getText().getBytes(defaultCharset));
-		return new ResponseEntity<JSONObject>(convertToJsonObject("encryptedText", encryptedData), HttpStatus.OK);
-	}
-	
-	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
-	public HttpEntity<JSONObject> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
-		des.setKey(key.getBytes());
-		byte[] decryptedData = des.decrypt(file.getBytes());
-		return new ResponseEntity<JSONObject>(convertToJsonObject("decryptedFile", decryptedData), HttpStatus.OK);
+	public HttpEntity<String> encryptText(@RequestBody TextEncryptionParams params) throws InvalidKeyException {
+		String key = params. getKey();
+		String text = params.getText();
+		
+		des.setKey(key.getBytes(defaultCharset));
+		byte[] plainData = text.getBytes(defaultCharset);
+		byte[] encryptedData = des.encrypt(plainData);
+		String encryptedText = Base64Utils.encodeToString(encryptedData);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_PLAIN);
+		return new ResponseEntity<String>(encryptedText, headers, HttpStatus.OK);
 	}
 	
 	@RequestMapping(path = "/decrypt/text", method = RequestMethod.POST)
-	public HttpEntity<JSONObject> decryptText(@Valid @RequestBody TextEncryptionParams params) throws InvalidKeyException {
-		des.setKey(params.getKey().getBytes(defaultCharset));
-		byte[] encryptedData = DatatypeConverter.parseBase64Binary(params.getText());
+	public HttpEntity<String> decryptText(@Valid @RequestBody TextEncryptionParams params) throws InvalidKeyException {
+		String key = params. getKey();
+		String text = params.getText();
+		
+		des.setKey(key.getBytes(defaultCharset));
+		byte[] encryptedData = Base64Utils.decodeFromString(text);
 		byte[] decryptedData = des.decrypt(encryptedData);
 		String decryptedText = new String(decryptedData, defaultCharset);
-		return new ResponseEntity<JSONObject>(convertToJsonObject("decryptedText", decryptedText), HttpStatus.OK);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_PLAIN);
+		return new ResponseEntity<String>(decryptedText, headers, HttpStatus.OK);
 	}
 	
-	private JSONObject convertToJsonObject(String key, Object value) {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(key, value);
-		return jsonObject;
+	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST)
+	public HttpEntity<byte[]> encryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+		des.setKey(key.getBytes(defaultCharset));
+		byte[] encryptedData = des.encrypt(file.getBytes());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", file.getContentType());
+		return new ResponseEntity<byte[]>(encryptedData, headers, HttpStatus.OK);
 	}
-
+	
+	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
+	public HttpEntity<byte[]> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
+		des.setKey(key.getBytes(defaultCharset));
+		byte[] decryptedData = des.decrypt(file.getBytes());
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", file.getContentType());
+		return new ResponseEntity<byte[]>(decryptedData, headers, HttpStatus.OK);
+	}
 }
+
+
