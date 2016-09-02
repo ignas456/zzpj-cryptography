@@ -34,6 +34,7 @@ public class DES implements IDes {
 		this.fFunction = fFunction;
 	}
 	
+	@Override
 	public void setKey(byte[] key) throws InvalidKeyException {
 		this.validateKey(key);
 		fFunction.calculateKSubKeys(key);
@@ -44,6 +45,7 @@ public class DES implements IDes {
 	 * @param source źródłowy strumień bajtów
 	 * @return Zaszyfrowany strumień bajtów
 	 */
+	@Override
 	public final byte[] encrypt(byte[] source) {
 		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
 
@@ -61,6 +63,7 @@ public class DES implements IDes {
 	 * @param source źródłowy strumień bajtów
 	 * @return Zdeszyfrowany strumień bajtów
 	 */
+	@Override
 	public final byte[] decrypt(byte[] source) {
 		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
 
