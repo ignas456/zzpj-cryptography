@@ -15,7 +15,7 @@ import pl.zzpj.cryptography.interfaces.IFFunction;
 @Component
 public class DES implements IDes {
 
-	private static final int BLOCK_LENGHT = 8;
+	private static final int BLOCK_LENGTH = 8;
 	private static final int ROUNDS_NUMBER = 16;
 	
 	@Autowired
@@ -34,56 +34,41 @@ public class DES implements IDes {
 		this.fFunction = fFunction;
 	}
 	
+	@Override
 	public void setKey(byte[] key) throws InvalidKeyException {
 		this.validateKey(key);
 		fFunction.calculateKSubKeys(key);
 	}
 	
-	/**
-	 * Syfruje przesłany strumień bajtów
-	 * @param source źródłowy strumień bajtów
-	 * @return Zaszyfrowany strumień bajtów
-	 */
+	@Override
 	public final byte[] encrypt(byte[] source) {
-		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
-
-		byte[][] encryptedSourceIn8ByteBlocks = new byte[sourceDividedInto8ByteBlocks.length][BLOCK_LENGHT];
-
-		for (int i = 0; i < encryptedSourceIn8ByteBlocks.length; i++) {
-			encryptedSourceIn8ByteBlocks[i] = this.encrypt8ByteBlock(sourceDividedInto8ByteBlocks[i]);
-		}
-
-		return arrayUtils.transformToOneDimensionArray(encryptedSourceIn8ByteBlocks);
+		byte[][] encryptedSourceBlocks = this.performAlgorithm(source, DESOperations.ENCRYPT);
+		return arrayUtils.transformBlocksToArray(encryptedSourceBlocks);
 	}
 	
-	/**
-	 * Deszyfruje przesłany strumień bajtów
-	 * @param source źródłowy strumień bajtów
-	 * @return Zdeszyfrowany strumień bajtów
-	 */
+	@Override
 	public final byte[] decrypt(byte[] source) {
-		byte[][] sourceDividedInto8ByteBlocks = arrayUtils.transformToTwoDimensionsArray(source);
-
-		byte[][] decryptedSourceIn8ByteBlocks = new byte[sourceDividedInto8ByteBlocks.length][BLOCK_LENGHT];
-
-		for (int i = 0; i < decryptedSourceIn8ByteBlocks.length; i++) {
-			decryptedSourceIn8ByteBlocks[i] = this.decrypt8ByteBlock(sourceDividedInto8ByteBlocks[i]);
-		}
-
-		decryptedSourceIn8ByteBlocks = this.removeUnnecessaryBytes(decryptedSourceIn8ByteBlocks);
+		byte[][] decryptedSourceBlocks = this.performAlgorithm(source, DESOperations.DECRYPT);
+		return arrayUtils.transformBlocksToArray(decryptedSourceBlocks);
+	}
+	
+	private byte[][] performAlgorithm(byte[] source, DESOperations operation) {
 		
-		return arrayUtils.transformToOneDimensionArray(decryptedSourceIn8ByteBlocks);
+		byte[][] sourceBlocks = arrayUtils.transformArrayToBlocks(source);
+		byte[][] targetBlocks = new byte[sourceBlocks.length][BLOCK_LENGTH];
+
+		for (int i = 0; i < targetBlocks.length; i++) {
+			targetBlocks[i] = this.performBlockAlgorithm(sourceBlocks[i], operation);
+		}
+		
+		if (operation == DESOperations.DECRYPT) {
+			return this.removeUnnecessaryBytes(targetBlocks);
+		} else {
+			return targetBlocks;
+		}
 	}
 	
-	private byte[] encrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorithm(sourceBlock, DESOperations.ENCRYPT);
-	}
-	
-	private byte[] decrypt8ByteBlock(byte[] sourceBlock) {
-		return this.performDESAlgorithm(sourceBlock, DESOperations.DECRYPT);
-	}
-	
-	private byte[] performDESAlgorithm(byte[] block, DESOperations operation) {
+	private byte[] performBlockAlgorithm(byte[] block, DESOperations operation) {
 		byte[] permutedOrginalBlock = matrixPermutation.permute(block, DESPermutationTables.IP);
 
 		int blockBitsNumber = permutedOrginalBlock.length / 2 * 8;
@@ -91,7 +76,7 @@ public class DES implements IDes {
 		byte[] leftBlockPart = bitJuggler.getBits(permutedOrginalBlock, 0, blockBitsNumber);
 		byte[] rightBlockPart = bitJuggler.getBits(permutedOrginalBlock, blockBitsNumber, blockBitsNumber);
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < ROUNDS_NUMBER; i++) {
 			byte[] memoredRightPart = rightBlockPart;
 
 			switch (operation) {
