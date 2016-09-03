@@ -16,7 +16,7 @@ public interface ArrayUtils {
 	 * @param source źródłowa tablica
 	 * @return Tablica jedno wymiarowa.
 	 */
-	public byte[] transformToOneDimensionArray(byte[][] source);
+	public byte[] transformBlocksToArray(byte[][] source);
 	
 	/**
 	 * Przekształca jednowymiarową tablicę bajtów na tablicę dwuwymiarową
@@ -24,6 +24,6 @@ public interface ArrayUtils {
 	 * @param source źródłowa tablica bajtów
 	 * @return Tablica dwu wymiarowa, gdzie drugi wymiar to 8.
 	 */
-	public byte[][] transformToTwoDimensionsArray(byte[] source);
+	public byte[][] transformArrayToBlocks(byte[] source);
 	
 }
