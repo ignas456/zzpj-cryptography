@@ -16,7 +16,7 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitPrinter;
 public class BitPrinterTest {
 	
 	@Autowired
-	BitPrinter bitPrinter;
+	private BitPrinter bitPrinter;
 
 	@Test
 	public void shouldReturnBitRepresentationOfByteArrayInString() {
