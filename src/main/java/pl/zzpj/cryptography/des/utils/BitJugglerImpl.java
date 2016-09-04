@@ -12,28 +12,25 @@ public class BitJugglerImpl implements BitJuggler {
 	@Autowired
 	private ArrayUtils arrayUtils;
 	
-	public byte[] xorArrays(byte[] src1, byte[] src2) {
-		if (src1 == null || src2 == null)
+	public byte[] xorArrays(byte[] source1, byte[] source2) {
+		if (source1 == null || source2 == null)
 			throw new IllegalArgumentException("Source array is null");
 		
-		if (src1.length > src2.length) 
-			src2 = arrayUtils.extendArraySize(src2, src1.length);
+		if (source1.length > source2.length) 
+			source2 = arrayUtils.extendArraySize(source2, source1.length);
 		
-		if (src1.length < src2.length) 
-			src1 = arrayUtils.extendArraySize(src1, src2.length);
+		if (source1.length < source2.length) 
+			source1 = arrayUtils.extendArraySize(source1, source2.length);
 		
-		byte[] result = new byte[src1.length];
-		for (int i = 0; i < src1.length; i++) {
-			result[i] = (byte) (src1[i] ^ src2[i]);
+		byte[] result = new byte[source1.length];
+		for (int i = 0; i < source1.length; i++) {
+			result[i] = (byte) (source1[i] ^ source2[i]);
 		}
 
 		return result;
 	}
 
 	public int getBit(byte[] source, int position) {
-		if (source == null) 
-			throw new IllegalArgumentException("Source array is null");
-		
 		if (position < 0)
 			throw new IllegalArgumentException("position is negative number");
 		
@@ -47,9 +44,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] getBits(byte[] source, int startPosition, int bitsNumber) {
-		if (source == null) 
-			throw new IllegalArgumentException("Source array is null");
-		
 		if (startPosition < 0)
 			throw new IllegalArgumentException("startPosition is negative number");
 		
@@ -68,9 +62,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public void setBit(byte[] destination, int position, int value) {
-		if (destination == null)
-			throw new IllegalArgumentException("Source array is null");
-		
 		if (position < 0)
 			throw new IllegalArgumentException("position is negative number");
 		
@@ -90,9 +81,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
-		if (destination == null || source == null) 
-			throw new IllegalArgumentException("array is null");
-		
 		if (destStartPosition < 0 || srcStartPosition < 0)
 			throw new IllegalArgumentException("Start position is negative number");
 		
@@ -105,9 +93,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
-		if (source == null) 
-			throw new IllegalArgumentException("Source array is null");
-		
 		if (bitsNumber < 0 || step < 0) 
 			throw new IllegalArgumentException("Numeric agr is negative number");
 		
@@ -121,9 +106,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] separateBits(byte[] source, int lenght) {
-		if (source == null)
-			throw new IllegalArgumentException("source array is null");
-		
 		if (lenght < 0 || lenght > 8)
 			throw new IllegalArgumentException("lenght is negative number");
 		
@@ -142,9 +124,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] concatBitSeries(byte[] firstSeries, int firstLenght, byte[] secondSeries, int secondLenght) {
-		if (firstSeries == null || secondSeries == null)
-			throw new IllegalArgumentException("source array is null");
-		
 		if (firstLenght < 0 || secondLenght < 0)
 			throw new IllegalArgumentException("length is negative number");
 		
