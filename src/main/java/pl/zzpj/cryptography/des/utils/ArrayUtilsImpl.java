@@ -24,9 +24,6 @@ public class ArrayUtilsImpl implements ArrayUtils {
 	}
 
 	public byte[] transformBlocksToArray(byte[][] source) {
-		if (source == null) 
-			throw new IllegalArgumentException("source is null");
-		
 		List<Byte> byteList = change2DByteArrayToByteList(source);
 
 		return prefromByteListUnboxingToByteArray(byteList);

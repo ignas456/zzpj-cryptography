@@ -55,7 +55,7 @@ public class BitJugglerTest {
 		
 		bitJuggler.getBit(sourceArray, bitPosition);
 	}
-	
+		
 	@Test(expected=IllegalArgumentException.class)
 	public void getBitShouldThrowIllegalArgumentExceptionForNegativePosition() {
 		byte[] sourceArray = {1, 2};

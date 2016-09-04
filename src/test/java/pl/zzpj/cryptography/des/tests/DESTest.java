@@ -2,13 +2,15 @@ package pl.zzpj.cryptography.des.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-import pl.zzpj.cryptography.des.algorithm.DES;
-import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import pl.zzpj.cryptography.ZzpjCryptographyApplication;
 
 public class DESTest {
+	
+	
 	
 	/*private DES sut;
 	private byte[] key = {1, 2, 3, 4, 5, 6, 7, 8};
