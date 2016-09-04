@@ -14,6 +14,7 @@ This is a spring web project which allows to encrypt/decrypt files and texts whi
 ## Installation
 
 If you want to run our project you just need to download it from Github and have Maven installed. You can use any IDE to launch it becuase we use Spring Boot, so you don't have to worry about uploading war on your server - Spring Boot will use it's own embedded server. If you prefer to use command line than you will have to use commands listed below :
+
 1. mvn clean install
 2. mvn spring-boot:run
 
