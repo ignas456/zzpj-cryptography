@@ -31,9 +31,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public int getBit(byte[] source, int position) {
-		if (position < 0)
-			throw new IllegalArgumentException("position is negative number");
-		
 		int bytePosition = position / 8;
 		int bitPositionInByte = position % 8;
 
@@ -44,12 +41,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] getBits(byte[] source, int startPosition, int bitsNumber) {
-		if (startPosition < 0)
-			throw new IllegalArgumentException("startPosition is negative number");
-		
-		if (bitsNumber < 0)
-			throw new IllegalArgumentException("bitsNumber is negative number");
-		
 		int newByteArraySize = ((bitsNumber - 1) / 8) + 1;
 		byte[] result = new byte[newByteArraySize];
 
@@ -62,12 +53,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public void setBit(byte[] destination, int position, int value) {
-		if (position < 0)
-			throw new IllegalArgumentException("position is negative number");
-		
-		if (value != 0 && value != 1)
-			throw new IllegalArgumentException("value is not 1 or 0");
-		
 		int bytePosition = (position) / 8;
 		byte changedByte = destination[bytePosition];
 
@@ -81,21 +66,12 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public void setBits(byte[] destination, int destStartPosition, byte[] source, int srcStartPosition, int length) {
-		if (destStartPosition < 0 || srcStartPosition < 0)
-			throw new IllegalArgumentException("Start position is negative number");
-		
-		if (length < 0)
-			throw new IllegalArgumentException("lenght is negative number");
-		
 		for (int i = destStartPosition, j = srcStartPosition; i < destStartPosition + length; i++, j++) {
 			setBit(destination, i, getBit(source, j));
 		}
 	}
 
 	public byte[] rotateSelectedBitsLeft(byte[] source, int bitsNumber, int step) {
-		if (bitsNumber < 0 || step < 0) 
-			throw new IllegalArgumentException("Numeric agr is negative number");
-		
 		int bytesNumber = (bitsNumber - 1) / 8 + 1;
 		byte[] result = new byte[bytesNumber];
 		for (int i = 0; i < bitsNumber; i++) {
@@ -106,12 +82,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] separateBits(byte[] source, int lenght) {
-		if (lenght < 0 || lenght > 8)
-			throw new IllegalArgumentException("lenght is negative number");
-		
-		if (((source.length * 8) % lenght != 0))
-			throw new IllegalArgumentException("wrong lenght");
-		
 		int newByteArraySize = (8 * source.length - 1) / lenght + 1;
 		byte[] result = new byte[newByteArraySize];
 		for (int i = 0; i < newByteArraySize; i++) {
@@ -124,9 +94,6 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 
 	public byte[] concatBitSeries(byte[] firstSeries, int firstLenght, byte[] secondSeries, int secondLenght) {
-		if (firstLenght < 0 || secondLenght < 0)
-			throw new IllegalArgumentException("length is negative number");
-		
 		int newByteArraySize = (firstLenght + secondLenght - 1) / 8 + 1;
 		byte[] result = new byte[newByteArraySize];
 		int j = 0;

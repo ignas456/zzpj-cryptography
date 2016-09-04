@@ -41,11 +41,6 @@ public class DES implements IDes {
 	}
 	
 
-	/**
-	 * Syfruje przesłany strumień bajtów
-	 * @param source źródłowy strumień bajtów
-	 * @return Zaszyfrowany strumień bajtów
-	 */
 	@Override
 	public final byte[] encrypt(byte[] source) {
 		byte[][] encryptedSourceBlocks = this.performAlgorithm(source, DESOperations.ENCRYPT);
@@ -53,11 +48,6 @@ public class DES implements IDes {
 	}
 	
 
-	/**
-	 * Deszyfruje przesłany strumień bajtów
-	 * @param source źródłowy strumień bajtów
-	 * @return Zdeszyfrowany strumień bajtów
-	 */
 	@Override
 	public final byte[] decrypt(byte[] source) {
 		byte[][] decryptedSourceBlocks = this.performAlgorithm(source, DESOperations.DECRYPT);
