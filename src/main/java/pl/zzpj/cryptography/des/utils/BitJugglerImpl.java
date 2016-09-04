@@ -17,14 +17,18 @@ public class BitJugglerImpl implements BitJuggler {
 	}
 	
 	public byte[] xorArrays(byte[] source1, byte[] source2) {
-		if (source1 == null || source2 == null)
+		if (source1 == null || source2 == null) {
 			throw new IllegalArgumentException("Source array is null");
+		}
 		
-		if (source1.length > source2.length) 
+		if (source1.length > source2.length) {
 			source2 = arrayUtils.extendArraySize(source2, source1.length);
+
+		}
 		
-		if (source1.length < source2.length) 
+		if (source1.length < source2.length) {
 			source1 = arrayUtils.extendArraySize(source1, source2.length);
+		}
 		
 		byte[] result = new byte[source1.length];
 		for (int i = 0; i < source1.length; i++) {
