@@ -16,7 +16,6 @@ import pl.zzpj.cryptography.des.algorithm.interfaces.KeyGenerator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(ZzpjCryptographyApplication.class)
-@WebAppConfiguration
 public class SubKeyGeneratorTest {
 	
 	@Autowired
