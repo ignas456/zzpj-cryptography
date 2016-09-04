@@ -14,9 +14,6 @@ public class ArrayUtilsImpl implements ArrayUtils {
 	private final static int BLOCK_LENGTH = 8;
 	
 	public byte[] extendArraySize(byte[] array, int newLength) {
-		if (array == null)
-			throw new IllegalArgumentException("Source array is null");
-
 		if (newLength < 0)
 			throw new IllegalArgumentException("newLength is negative number");
 
@@ -36,9 +33,6 @@ public class ArrayUtilsImpl implements ArrayUtils {
 	}
 	
 	public byte[][] transformToTwoDimensionsArray(byte[] source) {
-		if (source == null) 
-			throw new IllegalArgumentException("source is null");
-		
 		byte[][] result = new byte[(source.length - 1) / BLOCK_LENGTH + 1][BLOCK_LENGTH];
 		
 		for (int i = 0; i < result.length; i++) {

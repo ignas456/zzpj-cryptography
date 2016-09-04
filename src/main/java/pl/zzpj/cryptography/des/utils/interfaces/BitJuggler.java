@@ -6,11 +6,11 @@ public interface BitJuggler {
 	 * Wykonuje operacje XOR na dwóch podanch tablicach bajtów.
 	 * Jeżeli tablice są różnych rozmiarów, wynikiem jest tablica długości
 	 * takiej jak tablica wejściowa o większej długości.
-	 * @param src1 pierwsza wejściowa tablica bajtów.
-	 * @param src2 druga wejściowa tablica bajtów.
+	 * @param source1 pierwsza wejściowa tablica bajtów.
+	 * @param source2 druga wejściowa tablica bajtów.
 	 * @return tablica bajtów zawierająca wynik operacji XOR na tablicach wejściowych.
 	 */
-	public byte[] xorArrays(byte[] src1, byte[] src2);
+	public byte[] xorArrays(byte[] source1, byte[] source2);
 
 	/**
 	 * Zwraca wartość bitu na podanej pozycji w całej tablicy bajtów.
