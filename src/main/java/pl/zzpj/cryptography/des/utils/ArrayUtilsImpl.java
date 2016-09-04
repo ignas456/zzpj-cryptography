@@ -23,7 +23,7 @@ public class ArrayUtilsImpl implements ArrayUtils {
 		return result;
 	}
 
-	public byte[] transformToOneDimensionArray(byte[][] source) {
+	public byte[] transformBlocksToArray(byte[][] source) {
 		if (source == null) 
 			throw new IllegalArgumentException("source is null");
 		
@@ -32,7 +32,7 @@ public class ArrayUtilsImpl implements ArrayUtils {
 		return prefromByteListUnboxingToByteArray(byteList);
 	}
 	
-	public byte[][] transformToTwoDimensionsArray(byte[] source) {
+	public byte[][] transformArrayToBlocks(byte[] source) {
 		byte[][] result = new byte[(source.length - 1) / BLOCK_LENGTH + 1][BLOCK_LENGTH];
 		
 		for (int i = 0; i < result.length; i++) {
