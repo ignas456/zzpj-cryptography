@@ -9,8 +9,12 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 @Service
 public class BitJugglerImpl implements BitJuggler {
 
-	@Autowired
 	private ArrayUtils arrayUtils;
+	
+	@Autowired
+	public BitJugglerImpl(ArrayUtils arrayUtils) {
+		this.arrayUtils = arrayUtils;
+	}
 	
 	public byte[] xorArrays(byte[] source1, byte[] source2) {
 		if (source1 == null || source2 == null)

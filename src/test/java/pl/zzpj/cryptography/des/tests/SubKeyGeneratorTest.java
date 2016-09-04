@@ -11,7 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import pl.zzpj.cryptography.ZzpjCryptographyApplication;
 import pl.zzpj.cryptography.des.algorithm.SubKeyGenerator;
-import pl.zzpj.cryptography.interfaces.KeyGenerator;
+import pl.zzpj.cryptography.des.algorithm.interfaces.KeyGenerator;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -16,7 +16,7 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 public class BitJugglerTest {
 
 	@Autowired
-	BitJuggler bitJuggler;
+	private BitJuggler bitJuggler;
 	
 	@Test
 	public void shouldPerformXOROpertionOnTheByteArrays() {

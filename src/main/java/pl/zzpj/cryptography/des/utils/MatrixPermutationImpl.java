@@ -9,8 +9,12 @@ import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 @Service
 public class MatrixPermutationImpl implements MatrixPermutation {
 	
+	private BitJuggler bitJuggler;
+	
 	@Autowired
-	BitJuggler bitJuggler;
+	public MatrixPermutationImpl(BitJuggler bitJuggler) {
+		this.bitJuggler = bitJuggler;
+	}
 	
 	public byte[] permute(byte[] input, byte[] permutationTable) {
 	    byte[] result = new byte[(permutationTable.length - 1) / 8 + 1];

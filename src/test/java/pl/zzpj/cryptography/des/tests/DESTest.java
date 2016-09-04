@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.zzpj.cryptography.des.algorithm.DES;
+import pl.zzpj.cryptography.des.algorithm.DesImpl;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 
 

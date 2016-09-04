@@ -9,8 +9,12 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitPrinter;
 @Service
 public class BitPrinterImpl implements BitPrinter {
 
+	private BitJuggler bitJuggler;
+	
 	@Autowired
-	BitJuggler bitJuggler;
+	public BitPrinterImpl(BitJuggler bitJuggler) {
+		this.bitJuggler = bitJuggler;
+	}
 	
 	public String printBits(byte[] source) {
 		StringBuilder sb = new StringBuilder();
