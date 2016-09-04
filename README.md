@@ -24,6 +24,7 @@ After running those commands, our application is running on embedded spring boot
 
 Our backend part of application exposes four REST endpoints which provide data consumed by AngularJS part.
 These endpoints are as follows :
+
 | URL                   | Http Method | Input type | Input fields | Example input                                 | Response Status                                                           | Response Type |
 |-----------------------|-------------|------------|--------------|-----------------------------------------------|---------------------------------------------------------------------------|---------------|
 | /api/des/encrypt/text | POST        | JSON       | key , text   | {"key" : "ABCD1234, "text":"some"}            | 200 - text encrypted and returned, 400 - invalid key                      | text/plain    |
