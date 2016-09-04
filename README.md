@@ -5,13 +5,11 @@
 
 This is a spring web project which allows to encrypt/decrypt files and texts which works online. It uses Spring Boot and AngularJS as frontend framework.
 
----
 
 ## Motivation
 
  We created this application as a part of a task for one of our University's subject.
  
- ---
 
 ## Installation
 
@@ -21,7 +19,6 @@ If you want to run our project you just need to download it from Github and have
 
 After running those commands, our application is running on embedded spring boot server and you can access it by accessing _localhost:8080/zzpjcryptography_ url in the browser.
 
----
 
 ## API Reference
 
