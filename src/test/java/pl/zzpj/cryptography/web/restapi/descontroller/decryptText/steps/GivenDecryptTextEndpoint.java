@@ -29,12 +29,12 @@ public class GivenDecryptTextEndpoint
 	}
 	
 	public GivenDecryptTextEndpoint some_valid_key() {
-		this.key = "ABCD1234";
+		this.key = "4142434431323334";
 		return this;
 	}
 	
 	public GivenDecryptTextEndpoint some_invalid_key() {
-		this.key = "InvalidKey";
+		this.key = "ABCD12";
 		return this;
 	}
 	
