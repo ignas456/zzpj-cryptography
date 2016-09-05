@@ -5,34 +5,33 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
-import pl.zzpj.cryptography.des.algorithm.interfaces.FFunction;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
 import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
+import pl.zzpj.cryptography.interfaces.IDes;
+import pl.zzpj.cryptography.interfaces.IFFunction;
 
 @Component
-public class DesImpl implements Des {
+public class DES implements IDes {
 
 	private static final int BLOCK_LENGTH = 8;
 	private static final int ROUNDS_NUMBER = 16;
 	
-	private FFunction fFunction;
+	@Autowired
 	private BitJuggler bitJuggler;
-	private MatrixPermutation matrixPermutation;
-	private ArrayUtils arrayUtils;
-	
 	
 	@Autowired
-	public DesImpl(FFunction fFunction,
-				   BitJuggler bitJuggler,
-				   MatrixPermutation matrixPermutation,
-				   ArrayUtils arrayUtils) {
+	private MatrixPermutation matrixPermutation;
+	
+	@Autowired
+	private ArrayUtils arrayUtils;
+	
+	private IFFunction fFunction;
+	
+	@Autowired
+	public DES(IFFunction fFunction) {
 		this.fFunction = fFunction;
-		this.bitJuggler = bitJuggler;
-		this.matrixPermutation = matrixPermutation;
-		this.arrayUtils = arrayUtils;
 	}
 	
 	@Override

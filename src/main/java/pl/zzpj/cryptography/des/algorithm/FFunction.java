@@ -3,27 +3,26 @@ package pl.zzpj.cryptography.des.algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.zzpj.cryptography.des.algorithm.interfaces.FFunction;
-import pl.zzpj.cryptography.des.algorithm.interfaces.KeyGenerator;
 import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
+import pl.zzpj.cryptography.interfaces.IFFunction;
+import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
 @Service
-public class FFunctionImpl implements FFunction {
+public class FFunction implements IFFunction {
 	
 	private final KeyGenerator keyGenerator;
-	private BitJuggler bitJuggler;
-	private MatrixPermutation matrixPermutation;
-	
 	private byte[][] subKeys;
 	
 	@Autowired
-	public FFunctionImpl(KeyGenerator subKeyGenerator,
-			BitJuggler bitJuggler,
-			MatrixPermutation matrixPermutation){
+	private BitJuggler bitJuggler;
+	
+	@Autowired
+	private MatrixPermutation matrixPermutation;
+	
+	@Autowired
+	public FFunction(KeyGenerator subKeyGenerator){
 		this.keyGenerator = subKeyGenerator;
-		this.bitJuggler = bitJuggler;
-		this.matrixPermutation = matrixPermutation;
 	}
 	
 	public void calculateKSubKeys(byte key[]) {

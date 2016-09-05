@@ -9,14 +9,14 @@ import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 
-import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
+import pl.zzpj.cryptography.interfaces.IDes;
 
 public class GivenEncryptFileEndpointTest 
 	extends Stage<GivenEncryptFileEndpointTest> {
 	
 	@ExpectedScenarioState
-	private Des des;
+	private IDes des;
 	@ProvidedScenarioState
 	private MockHttpServletRequestBuilder request;
 	@ProvidedScenarioState

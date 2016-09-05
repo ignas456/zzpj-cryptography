@@ -16,7 +16,7 @@ import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
 public class ArrayUtilsTest {
 
 	@Autowired
-	private ArrayUtils arrayUtils;
+	ArrayUtils arrayUtils;
 	
 	@Test
 	public void shouldExtendArraySizeBy2() {

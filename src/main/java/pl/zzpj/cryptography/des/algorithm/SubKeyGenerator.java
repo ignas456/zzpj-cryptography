@@ -3,27 +3,26 @@ package pl.zzpj.cryptography.des.algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.zzpj.cryptography.des.algorithm.interfaces.KeyGenerator;
 import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
+import pl.zzpj.cryptography.interfaces.KeyGenerator;
 
 @Service
 public class SubKeyGenerator implements KeyGenerator {
 	
 	private static final int NUMBER_OF_SUBKEYS = 16;
 	
+	@Autowired
 	private BitJuggler bitJuggler;
 	
+	@Autowired
 	private MatrixPermutation matrixPermutation;
 	
 	private byte[] C0, D0;
 	private byte[][] subKeys;
 	
-	@Autowired
-	public SubKeyGenerator(BitJuggler bitJuggler, MatrixPermutation matrixPermutation) {
+	public SubKeyGenerator(){
 		this.subKeys = new byte[NUMBER_OF_SUBKEYS][];
-		this.bitJuggler = bitJuggler;
-		this.matrixPermutation = matrixPermutation;
 	}
 	
 	public byte[][] generateSubKeys(byte[] key) { 

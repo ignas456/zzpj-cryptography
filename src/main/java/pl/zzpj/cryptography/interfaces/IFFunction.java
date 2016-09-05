@@ -1,6 +1,6 @@
-package pl.zzpj.cryptography.des.algorithm.interfaces;
+package pl.zzpj.cryptography.interfaces;
 
-public interface FFunction {
+public interface IFFunction {
 	public void calculateKSubKeys(byte key[]);
 	public byte[] perform(byte[] input, int roundNumber);
 }

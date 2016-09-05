@@ -1,4 +1,4 @@
-package pl.zzpj.cryptography.des.algorithm.interfaces;
+package pl.zzpj.cryptography.interfaces;
 
 public interface KeyGenerator {
 	public byte[][] generateSubKeys(byte[] key);
