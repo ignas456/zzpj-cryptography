@@ -9,9 +9,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	ArrayUtilsTest.class, 
 	BitJugglerTest.class, 
 	BitPrinterTest.class,
-	SubKeyGeneratorTest.class
+	SubKeyGeneratorTest.class,
 	//FFunctionTest.class,
-	//DESTest.class
+	DESTest.class
 })
 public class AllDESTests {
 

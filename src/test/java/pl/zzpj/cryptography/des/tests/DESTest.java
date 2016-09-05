@@ -2,38 +2,41 @@ package pl.zzpj.cryptography.des.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
-import pl.zzpj.cryptography.des.algorithm.DesImpl;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import pl.zzpj.cryptography.ZzpjCryptographyApplication;
+import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=ZzpjCryptographyApplication.class)
 public class DESTest {
 	
-	/*private DES sut;
+	@Autowired
+	private Des sut;
 	private byte[] key = {1, 2, 3, 4, 5, 6, 7, 8};
-	
-	@Before
-	public void init() throws InvalidKeyException {
-		this.sut = new DES(this.key);
-	}
 	
 	@Test(expected=InvalidKeyException.class)
 	public void shouldThrowInvalidKeyExceptionForNullKey() throws InvalidKeyException {
 		byte[] key = null;
 		
-		new DES(key);
+		sut.setKey(key);
 	}
 	
 	@Test(expected=InvalidKeyException.class)
 	public void shouldThrowInvalidKeyExceptionForInvalidLenghtKey() throws InvalidKeyException {
 		byte[] key = {1, 2};
 		
-		new DES(key);
+		sut.setKey(key);
 	}
 	
 	@Test
-	public void shouldEncryptAndDecriptStringMessage(){
+	public void shouldEncryptAndDecriptStringMessage() throws InvalidKeyException{
+		sut.setKey(key);
 		String message = "Ala ma chrabąszcza";
 		byte[] messageByteStream = message.getBytes();
 		
@@ -42,6 +45,6 @@ public class DESTest {
 		String msgAfterDecription = new String(decrypted);
 		
 		assertThat(msgAfterDecription).isEqualTo(message);
-	}*/
+	}
 	
 }
