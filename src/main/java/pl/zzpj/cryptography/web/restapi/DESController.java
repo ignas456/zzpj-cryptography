@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
+import pl.zzpj.cryptography.interfaces.IDes;
 import pl.zzpj.cryptography.web.restapi.models.TextEncryptionParams;
 import pl.zzpj.cryptography.web.restapi.utils.HttpResponseBuilder;
 import pl.zzpj.cryptography.web.restapi.validators.TextEncryptionParamsValidator;
@@ -30,11 +30,11 @@ import pl.zzpj.cryptography.web.restapi.validators.TextEncryptionParamsValidator
 public class DESController {
 	
 	private final static Charset defaultCharset = StandardCharsets.UTF_8;
-	private final Des des;
+	private final IDes des;
 	private final HttpResponseBuilder responseBuilder;
 	
 	@Autowired
-	public DESController(Des des, HttpResponseBuilder responseBuilder) {
+	public DESController(IDes des, HttpResponseBuilder responseBuilder) {
 		this.des = des;
 		this.responseBuilder = responseBuilder;
 	}
