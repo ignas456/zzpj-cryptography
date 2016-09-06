@@ -5,9 +5,9 @@
         .module('zzpjcrypt',['ngFileUpload'])
         .controller('IndexController', IndexController);
     
-    IndexController.$inject = ['$scope','Upload', '$http'];
+    IndexController.$inject = ['$scope','Upload', '$http', 'KeyGenerator'];
     
-    function IndexController($scope, Upload, $http) { 
+    function IndexController($scope, Upload, $http, KeyGenerator) {
         'use strict';
 
     	var self = this;
@@ -23,7 +23,6 @@
 
         self.validateKey = function(){
             self.isKeyValid = keyPattern.test(self.key);
-            console.log(keyPattern.test(self.key));
         }
     	self.encrypt = function(){
     	    var data = {text: self.textInput, key: self.key};
@@ -83,6 +82,11 @@
                 var decrypted = new File([response.data], filename, {type: response.headers('Content-Type')});
                 saveAs(decrypted, filename);
             });
+        }
+
+        self.generateKey = function(){
+            self.key = KeyGenerator.generateKey();
+            self.validateKey();
         }
     }
 })();

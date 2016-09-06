@@ -9,7 +9,8 @@
 <h2>ZZPJ CYPTOGRAPHY</h2>
 <div ng-controller="IndexController as ctrl">
     <input type="text" placeholder="Key" ng-model="ctrl.key" ng-change="ctrl.validateKey()"/>
-    <button>Generate Key</button>
+    <button ng-click="ctrl.generateKey()">Generate Key</button>
+    <div class="annotation"><small>* Key is 8-byte hexadecimal value. (Valid characters [A-F 0-9])</small></div>
     <div style="display:block;">
         Select input method:
         <select ng-model="ctrl.inputType">
@@ -46,5 +47,6 @@
 <script th:src="@{/webjars/angularjs/1.5.7/angular.min.js}"></script>
 <script th:src="@{/webjars/angular-file-upload/11.0.0/ng-file-upload.min.js}"></script>
 <script th:src="@{js/controllers/IndexController.js}"></script>
+<script th:src="@{js/services/KeyGenerator.js}"></script>
 <script th:src="@{js/libs/file-saver/FileSaver.min.js}"></script>
 </html>
