@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
+import pl.zzpj.cryptography.des.keyGenerator.RandomKeyGenerator;
 import pl.zzpj.cryptography.web.restapi.models.TextEncryptionParams;
 import pl.zzpj.cryptography.web.restapi.utils.HttpResponseBuilder;
 import pl.zzpj.cryptography.web.restapi.validators.TextEncryptionParamsValidator;
@@ -33,11 +34,15 @@ public class DESController {
 	private final static Charset defaultCharset = StandardCharsets.UTF_8;
 	private final Des des;
 	private final HttpResponseBuilder responseBuilder;
+	private final RandomKeyGenerator randomKeyGenerator;
 	
 	@Autowired
-	public DESController(Des des, HttpResponseBuilder responseBuilder) {
+	public DESController(Des des,
+			HttpResponseBuilder responseBuilder,
+			RandomKeyGenerator randomKeyGenerator) {
 		this.des = des;
 		this.responseBuilder = responseBuilder;
+		this.randomKeyGenerator = randomKeyGenerator;
 	}
 	
 	@InitBinder
@@ -89,6 +94,12 @@ public class DESController {
 		byte[] decryptedData = des.decrypt(file.getBytes());
 		
 		return responseBuilder.buildFileResponse(decryptedData, file.getContentType());
+	}
+	
+	@RequestMapping(path="/randomKey", method = RequestMethod.GET)
+	public HttpEntity<String> generateRandomKey(){
+		String randomKey = randomKeyGenerator.generateKey();
+		return responseBuilder.buildTextResponse(randomKey);
 	}
 	
 }

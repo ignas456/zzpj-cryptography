@@ -84,6 +84,18 @@
                 saveAs(decrypted, filename);
             });
         }
+    	
+    	self.generateKey = function() {
+    		var request = {
+    				method: 'GET',
+        			url: './api/des/randomKey'
+    		};
+    		
+    		$http(request).then(function (response) {
+    			self.key = response.data;
+    			self.validateKey();
+    		});
+    	}
     }
 })();
 
