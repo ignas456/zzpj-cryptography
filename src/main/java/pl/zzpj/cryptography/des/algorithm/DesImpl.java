@@ -18,6 +18,8 @@ public class DesImpl implements Des {
 
 	private static final int BLOCK_LENGTH = 8;
 	
+	private static final int BITS_IN_BYTE = 8;
+	
 	private static final int ROUNDS_NUMBER = 16;
 	
 	private FFunction fFunction;
@@ -52,19 +54,17 @@ public class DesImpl implements Des {
 	@Override
 	public final byte[] encrypt(byte[] source) {
 		setStrategy(beanFactory.getBean(Encrypt.class));
-		byte[][] encryptedSourceBlocks = this.performAlgorithm(source);
-		return arrayUtils.transformBlocksToArray(encryptedSourceBlocks);
+		return this.performAlgorithm(source);
 	}
 	
 
 	@Override
 	public final byte[] decrypt(byte[] source) {
 		setStrategy(beanFactory.getBean(Decrypt.class));
-		byte[][] decryptedSourceBlocks = this.performAlgorithm(source);
-		return arrayUtils.transformBlocksToArray(decryptedSourceBlocks);
+		return this.performAlgorithm(source);
 	}
 	
-	private byte[][] performAlgorithm(byte[] source) {
+	private byte[] performAlgorithm(byte[] source) {
 		
 		byte[][] sourceBlocks = arrayUtils.transformArrayToBlocks(source);
 		byte[][] targetBlocks = new byte[sourceBlocks.length][BLOCK_LENGTH];
@@ -73,35 +73,35 @@ public class DesImpl implements Des {
 			targetBlocks[i] = this.performBlockAlgorithm(sourceBlocks[i]);
 		}
 		
-		return strategy.removeUnnecessaryBytes(targetBlocks);
+		targetBlocks = strategy.removeUnnecessaryBytes(targetBlocks);
+		
+		return arrayUtils.transformBlocksToArray(targetBlocks);
 	}
 	
 	private byte[] performBlockAlgorithm(byte[] block) {
 		byte[] permutedOrginalBlock = matrixPermutation.permute(block, DESPermutationTables.IP);
 
-		int blockBitsNumber = permutedOrginalBlock.length / 2 * 8;
+		int blockBitsNumber = permutedOrginalBlock.length / 2 * BITS_IN_BYTE;
 		
 		byte[] leftBlockPart = bitJuggler.getBits(permutedOrginalBlock, 0, blockBitsNumber);
 		byte[] rightBlockPart = bitJuggler.getBits(permutedOrginalBlock, blockBitsNumber, blockBitsNumber);
 
 		for (int i = 0; i < ROUNDS_NUMBER; i++) {
 			byte[] memoredRightPart = rightBlockPart;
-
 			rightBlockPart = strategy.performFFunction(rightBlockPart, i);
-
 			rightBlockPart = bitJuggler.xorArrays(leftBlockPart, rightBlockPart);
 			leftBlockPart = memoredRightPart;
 		}
 
-		byte[] result = bitJuggler.concatBitSeries(rightBlockPart, rightBlockPart.length * 8, leftBlockPart, leftBlockPart.length * 8);
+		byte[] result = bitJuggler.concatBitSeries(rightBlockPart, rightBlockPart.length * BITS_IN_BYTE, leftBlockPart, leftBlockPart.length * BITS_IN_BYTE);
 		result = matrixPermutation.permute(result, DESPermutationTables.FP);
 
 		return result;
 	}
 	
 	private void validateKey(byte[] key) throws InvalidKeyException {
-		if (key == null)		throw new InvalidKeyException("key is null");
-		if (key.length != 8) 	throw new InvalidKeyException("key length is not 8");
+		if (key == null)					throw new InvalidKeyException("key is null");
+		if (key.length != BLOCK_LENGTH) 	throw new InvalidKeyException("key length is not 8");
 	}
 	
 	// -------------------------------------------------------------------------------------------
