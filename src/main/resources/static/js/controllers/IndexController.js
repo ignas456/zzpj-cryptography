@@ -11,7 +11,7 @@
         'use strict';
 
     	var self = this;
-        var keyPattern = /^[0-9a-fA-F]{8}$/;
+        var keyPattern = /^[0-9a-fA-F]{16}$/;
 
     	self.inputType="text";
 

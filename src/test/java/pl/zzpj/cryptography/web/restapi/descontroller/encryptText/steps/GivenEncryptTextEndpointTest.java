@@ -21,7 +21,7 @@ public class GivenEncryptTextEndpointTest
 	private MockHttpServletRequestBuilder request;
 	
 	public GivenEncryptTextEndpointTest some_key() {
-		this.key = "ABCD1234";
+		this.key = "4142434431323334";
 		return this;
 	}
 	
