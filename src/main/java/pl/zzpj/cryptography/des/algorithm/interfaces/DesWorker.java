@@ -6,13 +6,18 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 
 public interface DesWorker {
-	public void setWorkerFactory(DesWorkerFactory workerFactory);
+	
+	public DesWorker setWorkerFactory(DesWorkerFactory workerFactory);
 
-	public void setBitJuggler(BitJuggler bitJuggler);
+	public DesWorker setBitJuggler(BitJuggler bitJuggler);
 
-	public void setMatrixPermutation(MatrixPermutation matrixPermutation);
+	public DesWorker setMatrixPermutation(MatrixPermutation matrixPermutation);
 
-	public void setArrayUtils(ArrayUtils arrayUtils);
+	public DesWorker setArrayUtils(ArrayUtils arrayUtils);
+	
+	public DesWorker setStrategy(Strategy strategy);
+	
+	public DesWorker setSource(byte[] source);
 
 	public byte[] perform();
 }

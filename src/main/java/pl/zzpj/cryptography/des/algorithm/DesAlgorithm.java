@@ -14,14 +14,8 @@ public class DesAlgorithm implements DesWorker {
 	private BitJuggler bitJuggler;
 	private MatrixPermutation matrixPermutation;
 	private ArrayUtils arrayUtils;
-	
 	private Strategy strategy;
 	private byte[] source;
-	
-	public DesAlgorithm(byte[] source, Strategy strategy) {
-		this.source = source;
-		this.strategy = strategy;
-	}
 	
 	@Override
 	public byte[] perform() {
@@ -64,22 +58,38 @@ public class DesAlgorithm implements DesWorker {
 	}
 
 	@Override
-	public void setWorkerFactory(DesWorkerFactory workerFactory) {
+	public DesWorker setWorkerFactory(DesWorkerFactory workerFactory) {
+		return this;
 	}
 
 	@Override
-	public void setBitJuggler(BitJuggler bitJuggler) {
+	public DesWorker setBitJuggler(BitJuggler bitJuggler) {
 		this.bitJuggler = bitJuggler;
+		return this;
 	}
 	
 	@Override
-	public void setMatrixPermutation(MatrixPermutation matrixPermutation) {
+	public DesWorker setMatrixPermutation(MatrixPermutation matrixPermutation) {
 		this.matrixPermutation = matrixPermutation;
+		return this;
 	}
 	
 	@Override
-	public void setArrayUtils(ArrayUtils arrayUtils) {
+	public DesWorker setArrayUtils(ArrayUtils arrayUtils) {
 		this.arrayUtils = arrayUtils;
+		return this;
+	}
+	
+	@Override
+	public DesWorker setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+		return this;
+	}
+	
+	@Override
+	public DesWorker setSource(byte[] source) {
+		this.source = source;
+		return this;
 	}
 	
 	public byte[] getSource() {

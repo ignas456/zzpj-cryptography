@@ -31,10 +31,12 @@ public class DesWorkerFactory {
 	}
 	
 	public DesWorker createWorker(byte[] source, Strategy strategy) {
-		DesAlgorithm desAlgorithm = new DesAlgorithm(source, strategy);
+		DesAlgorithm desAlgorithm = new DesAlgorithm();
 		desAlgorithm.setArrayUtils(arrayUtils);
 		desAlgorithm.setBitJuggler(bitJuggler);
 		desAlgorithm.setMatrixPermutation(matrixPermutation);
+		desAlgorithm.setStrategy(strategy);
+		desAlgorithm.setSource(source);
 		
 		switch (workerType) {
 		case "Simple":

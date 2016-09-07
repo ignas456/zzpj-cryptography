@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.concurrent.RecursiveTask;
 
 import pl.zzpj.cryptography.des.algorithm.interfaces.DesWorker;
+import pl.zzpj.cryptography.des.algorithm.interfaces.Strategy;
 import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
 import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
@@ -52,23 +53,39 @@ public class DesRecursiveWorker extends RecursiveTask<byte[]> implements DesWork
 	}
 	
 	@Override
-	public void setWorkerFactory(DesWorkerFactory workerFactory) {
+	public DesWorker setWorkerFactory(DesWorkerFactory workerFactory) {
 		this.workerFactory = workerFactory;
+		return this;
 	}
 	
 	@Override
-	public void setBitJuggler(BitJuggler bitJuggler) {
+	public DesWorker setBitJuggler(BitJuggler bitJuggler) {
 		desAlgorithm.setBitJuggler(bitJuggler);
+		return this;
 	}
 	
 	@Override
-	public void setMatrixPermutation(MatrixPermutation matrixPermutation) {
+	public DesWorker setMatrixPermutation(MatrixPermutation matrixPermutation) {
 		desAlgorithm.setMatrixPermutation(matrixPermutation);
+		return this;
 	}
 	
 	@Override
-	public void setArrayUtils(ArrayUtils arrayUtils) {
+	public DesWorker setArrayUtils(ArrayUtils arrayUtils) {
 		desAlgorithm.setArrayUtils(arrayUtils);
+		return this;
+	}
+
+	@Override
+	public DesWorker setStrategy(Strategy strategy) {
+		desAlgorithm.setStrategy(strategy);
+		return this;
+	}
+
+	@Override
+	public DesWorker setSource(byte[] source) {
+		desAlgorithm.setSource(source);
+		return this;
 	}
 	
 }
