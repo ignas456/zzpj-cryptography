@@ -47,4 +47,18 @@ public class DESTest {
 		assertThat(msgAfterDecription).isEqualTo(message);
 	}
 	
+	@Test
+	public void shouldEncryptAndDecriptFileStream() throws InvalidKeyException{
+		sut.setKey(key);
+		byte[] byteStream = new byte[64];
+		for (int i = 0; i < byteStream.length; i++) {
+			byteStream[i] = (byte) Math.floor(Math.random() * Byte.MAX_VALUE);
+		}
+
+		byte[] encrypted = this.sut.encrypt(byteStream);
+		byte[] decrypted = this.sut.decrypt(encrypted);
+		
+		assertThat(decrypted).isEqualTo(byteStream);
+	}
+	
 }

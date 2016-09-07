@@ -24,6 +24,7 @@
         self.validateKey = function(){
             self.isKeyValid = keyPattern.test(self.key);
         }
+        
     	self.encrypt = function(){
     	    var data = {text: self.textInput, key: self.key};
             $http.post('api/des/encrypt/text', data)

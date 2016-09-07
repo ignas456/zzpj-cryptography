@@ -7,7 +7,7 @@ import pl.zzpj.cryptography.des.algorithm.interfaces.FFunction;
 import pl.zzpj.cryptography.des.algorithm.interfaces.Strategy;
 
 @Component
-public class Encrypt implements Strategy {
+public class Encryptor implements Strategy {
 
 	@Autowired
 	FFunction fFunction;
