@@ -50,10 +50,8 @@ public class DESTest {
 	@Test
 	public void shouldEncryptAndDecriptFileStream() throws InvalidKeyException{
 		sut.setKey(key);
-		byte[] byteStream = new byte[64];
-		for (int i = 0; i < byteStream.length; i++) {
-			byteStream[i] = (byte) Math.floor(Math.random() * Byte.MAX_VALUE);
-		}
+		byte[] byteStream = {1,2,3,4,5,6,7,8};
+
 
 		byte[] encrypted = this.sut.encrypt(byteStream);
 		byte[] decrypted = this.sut.decrypt(encrypted);
