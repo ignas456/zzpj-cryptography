@@ -20,11 +20,21 @@
 
     	self.textInput = '';
     	self.textOutput = '';
+    	
+    	self.generateKey = function(){
+    		self.key = '';
+    		var possible = '0123456789abcdef';
+    		for(var i = 0; i < 16; i++) {
+    			self.key += possible.charAt(Math.floor(Math.random() * possible.length));
+    		}
+    		self.validateKey();
+    	}
 
         self.validateKey = function(){
             self.isKeyValid = keyPattern.test(self.key);
             console.log(keyPattern.test(self.key));
         }
+        
     	self.encrypt = function(){
     	    var data = {text: self.textInput, key: self.key};
             $http.post('api/des/encrypt/text', data)

@@ -9,7 +9,7 @@ import pl.zzpj.cryptography.des.algorithm.interfaces.FFunction;
 import pl.zzpj.cryptography.des.algorithm.interfaces.Strategy;
 
 @Component
-public class Decrypt implements Strategy {
+public class Decryptor implements Strategy {
 
 	private static final int ROUNDS_NUMBER = 16;
 	

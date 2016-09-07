@@ -9,7 +9,7 @@
 <h2>ZZPJ CYPTOGRAPHY</h2>
 <div ng-controller="IndexController as ctrl">
     <input type="text" placeholder="Key" ng-model="ctrl.key" ng-change="ctrl.validateKey()"/>
-    <button>Generate Key</button>
+    <button ng-click="ctrl.generateKey()">Generate Key</button>
     <div style="display:block;">
         Select input method:
         <select ng-model="ctrl.inputType">

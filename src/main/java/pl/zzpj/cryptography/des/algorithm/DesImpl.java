@@ -18,14 +18,14 @@ public class DesImpl implements Des {
 	private DesWorkerFactory workerFactory;
 	
 	private Strategy strategy;
-	private Encrypt encryptor;
-	private Decrypt decryptor;
+	private Encryptor encryptor;
+	private Decryptor decryptor;
 	
 	@Autowired
 	public DesImpl(FFunction fFunction,
 			DesWorkerFactory workerFactory,
-			Encrypt encryptor,
-			Decrypt decryptor) {
+			Encryptor encryptor,
+			Decryptor decryptor) {
 		this.fFunction = fFunction;
 		this.workerFactory = workerFactory;
 		this.encryptor = encryptor;

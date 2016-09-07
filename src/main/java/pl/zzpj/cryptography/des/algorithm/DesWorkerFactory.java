@@ -11,7 +11,10 @@ import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 
 @Service
 public class DesWorkerFactory {
-private String workerType = "Simple";
+	public static final String SIMPLE = "Simple";
+	public static final String RECURSIVE = "Recursive";
+	
+	private String workerType = RECURSIVE;
 	
 	private BitJuggler bitJuggler;
 	private MatrixPermutation matrixPermutation;
@@ -37,10 +40,10 @@ private String workerType = "Simple";
 		case "Simple":
 			return desAlgorithm;
 			
-//		case "Recursive":
-//			DesWorker worker = new DesRecursiveWorker(desAlgorithm);
-//			worker.setWorkerFactory(this);
-//			return worker;
+		case "Recursive":
+			DesWorker worker = new DesRecursiveWorker(desAlgorithm);
+			worker.setWorkerFactory(this);
+			return worker;
 
 		default:
 			throw new IllegalStateException("Unknown worker type: " + workerType);
