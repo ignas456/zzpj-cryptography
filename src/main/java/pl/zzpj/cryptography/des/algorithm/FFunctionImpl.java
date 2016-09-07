@@ -11,7 +11,7 @@ import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 @Service
 public class FFunctionImpl implements FFunction {
 	
-	private final KeyGenerator keyGenerator;
+	private KeyGenerator keyGenerator;
 	private BitJuggler bitJuggler;
 	private MatrixPermutation matrixPermutation;
 	
