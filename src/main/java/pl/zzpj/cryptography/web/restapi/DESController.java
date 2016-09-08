@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import javax.validation.Valid;
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
-import pl.zzpj.cryptography.interfaces.IDes;
 import pl.zzpj.cryptography.web.restapi.models.TextEncryptionParams;
 import pl.zzpj.cryptography.web.restapi.utils.HttpResponseBuilder;
 import pl.zzpj.cryptography.web.restapi.validators.TextEncryptionParamsValidator;
@@ -30,11 +31,11 @@ import pl.zzpj.cryptography.web.restapi.validators.TextEncryptionParamsValidator
 public class DESController {
 	
 	private final static Charset defaultCharset = StandardCharsets.UTF_8;
-	private final IDes des;
+	private final Des des;
 	private final HttpResponseBuilder responseBuilder;
 	
 	@Autowired
-	public DESController(IDes des, HttpResponseBuilder responseBuilder) {
+	public DESController(Des des, HttpResponseBuilder responseBuilder) {
 		this.des = des;
 		this.responseBuilder = responseBuilder;
 	}
@@ -49,8 +50,8 @@ public class DESController {
 		
 		String key = params. getKey();
 		String text = params.getText();
-		
-		des.setKey(key.getBytes(defaultCharset));
+
+		des.setKey(DatatypeConverter.parseHexBinary(key));
 		byte[] plainData = text.getBytes(defaultCharset);
 		byte[] encryptedData = des.encrypt(plainData);
 		String encryptedText = Base64Utils.encodeToString(encryptedData);
@@ -64,7 +65,7 @@ public class DESController {
 		String key = params. getKey();
 		String text = params.getText();
 		
-		des.setKey(key.getBytes(defaultCharset));
+		des.setKey(DatatypeConverter.parseHexBinary(key));
 		byte[] encryptedData = Base64Utils.decodeFromString(text);
 		byte[] decryptedData = des.decrypt(encryptedData);
 		String decryptedText = new String(decryptedData, defaultCharset);
@@ -75,7 +76,7 @@ public class DESController {
 	@RequestMapping(path = "/encrypt/file", method = RequestMethod.POST)
 	public HttpEntity<byte[]> encryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
 		
-		des.setKey(key.getBytes(defaultCharset));
+		des.setKey(DatatypeConverter.parseHexBinary(key));
 		byte[] encryptedData = des.encrypt(file.getBytes());
 		
 		return responseBuilder.buildFileResponse(encryptedData, file.getContentType());
@@ -84,7 +85,7 @@ public class DESController {
 	@RequestMapping(path = "/decrypt/file", method = RequestMethod.POST)
 	public HttpEntity<byte[]> decryptFile(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) throws InvalidKeyException, IOException {
 		
-		des.setKey(key.getBytes(defaultCharset));
+		des.setKey(DatatypeConverter.parseHexBinary(key));
 		byte[] decryptedData = des.decrypt(file.getBytes());
 		
 		return responseBuilder.buildFileResponse(decryptedData, file.getContentType());

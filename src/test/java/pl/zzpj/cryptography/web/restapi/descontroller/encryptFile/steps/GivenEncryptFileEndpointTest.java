@@ -9,14 +9,16 @@ import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 
+import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.des.exceptions.InvalidKeyException;
-import pl.zzpj.cryptography.interfaces.IDes;
+
+import javax.xml.bind.DatatypeConverter;
 
 public class GivenEncryptFileEndpointTest 
 	extends Stage<GivenEncryptFileEndpointTest> {
 	
 	@ExpectedScenarioState
-	private IDes des;
+	private Des des;
 	@ProvidedScenarioState
 	private MockHttpServletRequestBuilder request;
 	@ProvidedScenarioState
@@ -26,7 +28,7 @@ public class GivenEncryptFileEndpointTest
 	private MockMultipartFile file;
 	
 	public GivenEncryptFileEndpointTest some_key() {
-		key = "ABCD1234";
+		key = "4142434431323334";
 		return this;
 	}
 	
@@ -41,7 +43,7 @@ public class GivenEncryptFileEndpointTest
 	}
 	
 	public GivenEncryptFileEndpointTest expected_file_content() throws InvalidKeyException {
-		des.setKey(key.getBytes());
+		des.setKey(DatatypeConverter.parseHexBinary(key));
 		expectedContent = des.encrypt(fileContent.getBytes());
 		return this;
 	}

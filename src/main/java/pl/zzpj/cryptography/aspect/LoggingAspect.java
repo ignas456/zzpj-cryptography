@@ -35,7 +35,7 @@ public class LoggingAspect {
 		LOGGER.info(message);
 	}
 	
-	@Before("execution (* pl.zzpj.cryptography.des.algorithm.DES.*(..) )")
+	@Before("execution (* pl.zzpj.cryptography.des.algorithm.DesImpl.*(..) )")
 	public void logBeforeDesMethodsExecution(JoinPoint joinPoint) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("DES - Start execution [" + joinPoint.getSignature() + "] ");
@@ -45,7 +45,7 @@ public class LoggingAspect {
 		LOGGER.debug(message);
 	}
 	
-	@After("execution (* pl.zzpj.cryptography.des.algorithm.DES.*(..) )")
+	@After("execution (* pl.zzpj.cryptography.des.algorithm.DesImpl.*(..) )")
 	public void logAfterDesMethodsExecution(JoinPoint joinPoint) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("DES - Stop execution [" + joinPoint.getSignature() + "] ");

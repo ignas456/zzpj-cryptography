@@ -4,11 +4,14 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.zzpj.cryptography.ZzpjCryptographyApplication;
+import pl.zzpj.cryptography.des.utils.BitJugglerImpl;
+import pl.zzpj.cryptography.des.utils.interfaces.ArrayUtils;
 import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,16 +19,24 @@ import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
 public class BitJugglerTest {
 
 	@Autowired
-	BitJuggler bitJuggler;
+	private BitJuggler bitJuggler;
 	
 	@Test
 	public void shouldPerformXOROpertionOnTheByteArrays() {
+		//given
 		byte[] firstArray = {1, 2, 0};
 		byte[] secondArray = {2, 1};
 		byte[] expectedArray = {3, 3, 0};
+		byte[] extendedArray = {2,1,0};
 		
+		ArrayUtils arrayUtils = Mockito.mock(ArrayUtils.class);
+		Mockito.when(arrayUtils.extendArraySize(secondArray, firstArray.length)).thenReturn(extendedArray);
+		BitJuggler bitJuggler = new BitJugglerImpl(arrayUtils);
+		
+		//when
 		byte[] XorOperationResult = bitJuggler.xorArrays(firstArray, secondArray);
 		
+		//then
 		assertThat(XorOperationResult).isEqualTo(expectedArray);
 	}
 	

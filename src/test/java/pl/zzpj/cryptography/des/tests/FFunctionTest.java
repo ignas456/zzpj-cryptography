@@ -1,20 +1,34 @@
 package pl.zzpj.cryptography.des.tests;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.mockito.Mockito.*;
+import pl.zzpj.cryptography.ZzpjCryptographyApplication;
+import pl.zzpj.cryptography.des.algorithm.FFunctionImpl;
+import pl.zzpj.cryptography.des.algorithm.interfaces.FFunction;
+import pl.zzpj.cryptography.des.algorithm.interfaces.KeyGenerator;
+import pl.zzpj.cryptography.des.utils.interfaces.BitJuggler;
+import pl.zzpj.cryptography.des.utils.interfaces.MatrixPermutation;
 
-import pl.zzpj.cryptography.des.algorithm.FFunction;
-import pl.zzpj.cryptography.des.algorithm.SubKeyGenerator;
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=ZzpjCryptographyApplication.class)
 public class FFunctionTest {
-	private static SubKeyGenerator mockedSubKeyGenerator;
+	@Autowired
+	private BitJuggler bitJuggler;
+	@Autowired
+	private MatrixPermutation matrixPermutation;
 	
-	/*@BeforeClass
-	public static void prepare(){
+	@Test
+	public void shouldPerformFFunction(){
+		//given
+		byte[] key = {1,2,3,4,5,6,7,8};
+		byte[] bytesToCompute = {1,2,3,4};
 		byte[][] expectedSubKeys = {{0, 0, 0, 19, 42, -126},
 				{0, 0, 0, 16, 35, 7},
 				{0, 0, 0, -74, 0, -124},
@@ -31,24 +45,19 @@ public class FFunctionTest {
 				{0, 0, 0, -112, 56, -112},
 				{0, 0, 0, -95, 2, 53},
 				{0, 0, 0, -93, 66, -128}};
-		
-		mockedSubKeyGenerator = Mockito.mock(SubKeyGenerator.class);
-		when(mockedSubKeyGenerator.generateSubKeys()).thenReturn(expectedSubKeys);
-	}
-	
-	@Test
-	public void shouldPerformFFunction(){
-		//given
-		byte[] bytesToCompute = {1,2,3,4};
-		FFunction fFunction = new FFunction(mockedSubKeyGenerator);
 		int roundNumber = 1;
 		byte[] expected = {22, -11, -41, 96};
 		
+		KeyGenerator keyGenerator = Mockito.mock(KeyGenerator.class);
+		Mockito.when(keyGenerator.generateSubKeys(key)).thenReturn(expectedSubKeys);
+		FFunction fFunction = new FFunctionImpl(keyGenerator, bitJuggler, matrixPermutation);
+		
 		//when
+		fFunction.calculateKSubKeys(key);
 		byte[] outcome = fFunction.perform(bytesToCompute, roundNumber);
 		
 		//then
 		assertThat(outcome).isEqualTo(expected);
 		
-	}*/
+	}
 }

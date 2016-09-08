@@ -12,7 +12,7 @@ import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 import com.tngtech.jgiven.junit.ScenarioTest;
 
 import pl.zzpj.cryptography.ZzpjCryptographyApplication;
-import pl.zzpj.cryptography.interfaces.IDes;
+import pl.zzpj.cryptography.des.algorithm.interfaces.Des;
 import pl.zzpj.cryptography.web.restapi.descontroller.encryptFile.steps.GivenEncryptFileEndpointTest;
 import pl.zzpj.cryptography.web.restapi.descontroller.encryptFile.steps.ThenEncryptFileEndpointTest;
 import pl.zzpj.cryptography.web.restapi.descontroller.shared.WhenStage;
@@ -30,7 +30,7 @@ public class EncryptFileEndpointTest
 	 
 	 @Autowired
 	 @ProvidedScenarioState
-	 private IDes des;
+	 private Des des;
 	 
 	 @Test
 	 public void should_return_encrypted_file() throws Exception {
